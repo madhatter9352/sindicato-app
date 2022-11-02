@@ -1,0 +1,126 @@
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { CreateArea, DeleteArea, EditArea, GetAreas } from "../../services/area";
+
+export const getAreas = createAsyncThunk(
+    'getAreas',
+    async (_, {rejectWithValue}) => {
+        try {
+            const areas = await GetAreas();
+            return areas;
+        } catch (error) {
+            return rejectWithValue(error.response.statusText)
+        }
+    }
+)
+
+export const createArea = createAsyncThunk(
+    'createArea',
+    async(name, {rejectWithValue}) => {
+        try {
+            const area = await CreateArea(name)
+            return area.data;
+        } catch (error) {
+            return rejectWithValue(error.response.statusText);
+        }
+    }
+)
+
+export const deleteArea = createAsyncThunk(
+    'deleteArea',
+    async(id, {rejectWithValue}) => {
+        try {
+            const area = await DeleteArea(id)
+            if(area.status === 204){
+                return id;
+            }
+        } catch (error) {
+            console.log(error.response.statusText)
+            return rejectWithValue(error.response.statusText);
+        }
+    }
+)
+
+export const editArea = createAsyncThunk(
+    'editArea',
+    async({id, name}, {rejectWithValue}) => {
+        try {
+            const area = await EditArea(id, name)
+            console.log(area);
+            return area.data;
+        } catch (error) {
+            console.log(error.response.statusText)
+            return rejectWithValue(error.response.statusText);
+        }
+    }
+)
+
+const areaSlice = createSlice({
+    name: 'area',
+    initialState: {
+        areas: [],
+        loading: 'idle',
+        error: ''
+    },
+    reducers: {},
+    extraReducers: (builder) => {
+        builder.addCase(getAreas.fulfilled, (state, action) => {
+            state.areas = action.payload.results
+            state.loading = action.meta.requestStatus;
+        });
+
+        builder.addCase(getAreas.pending, (state, action) => {
+            state.loading = action.meta.requestStatus;
+        });
+
+        builder.addCase(getAreas.rejected, (state, action) => {
+            state.error = action.payload;
+            state.loading = action.meta.requestStatus;
+        });
+
+        builder.addCase(createArea.fulfilled, (state, action) => {
+            state.areas.push(action.payload)
+            state.loading = action.meta.requestStatus;
+        });
+
+        builder.addCase(createArea.pending, (state, action) => {
+            state.loading = action.meta.requestStatus;
+        });
+
+        builder.addCase(createArea.rejected, (state, action) => {
+            state.error = action.payload;
+            state.loading = action.meta.requestStatus;
+        });
+
+        builder.addCase(deleteArea.fulfilled, (state, action) => {
+            const index = state.areas.findIndex(a => a.id === action.payload);
+            state.areas.splice(index, 1);
+            state.loading = action.meta.requestStatus;
+        });
+
+        builder.addCase(deleteArea.pending, (state, action) => {
+            state.loading = action.meta.requestStatus;
+        });
+
+        builder.addCase(deleteArea.rejected, (state, action) => {
+            state.error = action.payload;
+            state.loading = action.meta.requestStatus;
+        });
+
+        builder.addCase(editArea.fulfilled, (state, action) => {
+            const index = state.areas.findIndex(area => area.id === action.payload.id);
+            state.areas[index] = action.payload;
+            state.loading = action.meta.requestStatus;
+        });
+
+        builder.addCase(editArea.pending, (state, action) => {
+            state.loading = action.meta.requestStatus;
+        });
+
+        builder.addCase(editArea.rejected, (state, action) => {
+            state.error = action.payload;
+            state.loading = action.meta.requestStatus;
+        });
+    }
+});
+
+export default areaSlice.reducer;

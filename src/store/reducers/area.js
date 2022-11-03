@@ -61,7 +61,13 @@ const areaSlice = createSlice({
         loading: 'idle',
         error: ''
     },
-    reducers: {},
+    reducers: {
+        clearAreaState(state, action){
+            state.areas = [];
+            state.loading = 'idle';
+            state.error = '';
+        }
+    },
     extraReducers: (builder) => {
         builder.addCase(getAreas.fulfilled, (state, action) => {
             state.areas = action.payload.results
@@ -122,5 +128,7 @@ const areaSlice = createSlice({
         });
     }
 });
+
+export const {clearAreaState} = areaSlice.actions;
 
 export default areaSlice.reducer;

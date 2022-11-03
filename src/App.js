@@ -8,8 +8,17 @@ import { PublicRoute } from './routes/PublicRoute';
 import { ToastContainer } from 'react-toastify';
 import { ModalContainer } from './components/modal/ModalContainer';
 import { SeccionSindical } from './pages/seccion-sindical/SeccionSindical';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { clearAreaState } from './store/reducers/area';
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(clearAreaState());
+  }, [dispatch]);
+  
   return (
     <BrowserRouter>
       <Routes>

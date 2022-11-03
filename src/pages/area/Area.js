@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import { Table } from 'react-bootstrap'
-import { useDispatch, useSelector } from 'react-redux'
-import { toast } from 'react-toastify'
-import { Button } from 'semantic-ui-react'
-import { ContentHeader } from '../../components/content-header/ContentHeader'
-import { Loading } from '../../components/loading/Loading'
-import { deleteArea, getAreas } from '../../store/reducers/area'
-import { openModal } from '../../store/reducers/modal'
-import { AddAreaModal } from './AddAreaModal'
+import React, { useEffect, useState } from 'react';
+import { Table } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { Button } from 'semantic-ui-react';
+import { ContentHeader } from '../../components/content-header/ContentHeader';
+import { Loading } from '../../components/loading/Loading';
+import { deleteArea, getAreas } from '../../store/reducers/area';
+import { openModal } from '../../store/reducers/modal';
+import { formatDate } from '../../utils/helpers';
+import { AddAreaModal } from './AddAreaModal';
 
 export const Area = () => {
     const dispatch = useDispatch();
@@ -73,7 +74,7 @@ export const Area = () => {
                                             >
                                                 <td>{area.id}</td>
                                                 <td>{area.name}</td>
-                                                <td>{area.created}</td>
+                                                <td>{formatDate(area.created)}</td>
                                                 <td>
                                                     <Button 
                                                         color='red'
@@ -96,7 +97,9 @@ export const Area = () => {
                                 </tbody>
                             </Table>
                         </div>
-                        <div className="card-footer">Footer</div>
+                        <div className="card-footer">
+                            Footer
+                        </div>
                     </div>
                 </div>
             </section>

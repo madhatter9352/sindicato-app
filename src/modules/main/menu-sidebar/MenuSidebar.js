@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Image } from 'semantic-ui-react';
 import { MenuItem } from '../../../components';
+import { MENU } from './menuList';
 
 const StyledBrandImage = {
     float: 'left',
@@ -11,27 +12,6 @@ const StyledBrandImage = {
     opacity: '0.8',
     pfBoxShadow: '0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23) !important'
 };
-
-export const MENU = [
-    {
-        name: 'Home',
-        path: '/'
-    },
-    {
-        name: 'Configuracion',
-        children: [
-        {
-            name: 'Area',
-            path: '/area'
-        },
-
-        {
-            name: 'Usuarios',
-            path: '/usuarios'
-        }
-        ]
-    }
-];
 
 export const MenuSidebar = () => {
     const sidebarSkin = useSelector((state) => state.ui.sidebarSkin);

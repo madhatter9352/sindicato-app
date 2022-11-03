@@ -7,6 +7,7 @@ import { PrivateRoute } from './routes/PrivateRoute';
 import { PublicRoute } from './routes/PublicRoute';
 import { ToastContainer } from 'react-toastify';
 import { ModalContainer } from './components/modal/ModalContainer';
+import { SeccionSindical } from './pages/seccion-sindical/SeccionSindical';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path='/' element={<PrivateRoute />}>
           <Route path='/' element={<Home />}>
               <Route path='/area' element={<Area />} />
+              <Route path='/seccion-sindical' element={<SeccionSindical />} />
           </Route>
         </Route>
       </Routes>

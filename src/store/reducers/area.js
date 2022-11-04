@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { CreateArea, DeleteArea, EditArea, GetAreas } from "../../services/area";
+import { CreateArea, DeleteArea, EditArea, GetAreas, GetAreasByPage } from "../../services/area";
 
 export const getAreas = createAsyncThunk(
     'getAreas',
@@ -54,12 +54,27 @@ export const editArea = createAsyncThunk(
     }
 )
 
+export const getAreasByPage = createAsyncThunk(
+    'getAreasByPage',
+    async(page, {rejectWithValue}) => {
+        try {
+            const area = await GetAreasByPage(page)
+            console.log(area);
+            return area.data;
+        } catch (error) {
+            console.log(error.response.statusText)
+            return rejectWithValue(error.response.statusText);
+        }
+    }
+)
+
 const areaSlice = createSlice({
     name: 'area',
     initialState: {
         areas: [],
         loading: 'idle',
-        error: ''
+        error: '',
+        pagination: null
     },
     reducers: {
         clearAreaState(state, action){
@@ -70,7 +85,7 @@ const areaSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(getAreas.fulfilled, (state, action) => {
-            state.areas = action.payload.results
+            state.areas = action.payload.results;
             state.loading = action.meta.requestStatus;
         });
 
@@ -123,6 +138,26 @@ const areaSlice = createSlice({
         });
 
         builder.addCase(editArea.rejected, (state, action) => {
+            state.error = action.payload;
+            state.loading = action.meta.requestStatus;
+        });
+
+        builder.addCase(getAreasByPage.fulfilled, (state, action) => {
+            console.log(action)
+            state.areas = action.payload.results;
+            state.loading = action.meta.requestStatus;
+            state.pagination = {
+                count: action.payload.count,
+                next: !!action.payload.next,
+                previous: !!action.payload.previous
+            }
+        });
+
+        builder.addCase(getAreasByPage.pending, (state, action) => {
+            state.loading = action.meta.requestStatus;
+        });
+
+        builder.addCase(getAreasByPage.rejected, (state, action) => {
             state.error = action.payload;
             state.loading = action.meta.requestStatus;
         });

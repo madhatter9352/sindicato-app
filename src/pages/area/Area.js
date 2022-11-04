@@ -5,20 +5,28 @@ import { toast } from 'react-toastify';
 import { Button } from 'semantic-ui-react';
 import { ContentHeader } from '../../components/content-header/ContentHeader';
 import { Loading } from '../../components/loading/Loading';
-import { deleteArea, getAreas } from '../../store/reducers/area';
+import { PaginationComponent } from '../../components/pagination/Pagination';
+import { deleteArea, getAreasByPage } from '../../store/reducers/area';
 import { openModal } from '../../store/reducers/modal';
 import { formatDate } from '../../utils/helpers';
-import { AddAreaModal } from './AddAreaModal';
+import { AddAreaModal } from './AreaModal';
 
 export const Area = () => {
     const dispatch = useDispatch();
-    const {areas, loading, error} = useSelector(state => state.area);
+    const {areas, loading, error, pagination} = useSelector(state => state.area);
     const [isDeleting, setIsDeleting] = useState(false);
     const [selected, setSelected] = useState(null);
+    const [currPage, setCurrentPage] = useState(1);
+
+    // useEffect(() => {
+    //     dispatch(getAreas());
+    // }, [dispatch]);
 
     useEffect(() => {
-        dispatch(getAreas());
-    }, [dispatch])
+        if(currPage){
+            dispatch(getAreasByPage(currPage))
+        }
+    }, [dispatch, currPage]);
 
     if(!['fulfilled', 'rejected'].includes(loading)){
         return <Loading active inline='centered' content='Loading Areas...' />
@@ -97,8 +105,18 @@ export const Area = () => {
                                 </tbody>
                             </Table>
                         </div>
-                        <div className="card-footer">
-                            Footer
+                        <div className="card-footer" style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                        }}>
+                            <PaginationComponent 
+                                totalItems={pagination.count} 
+                                itemsPerPage={8}
+                                next = {pagination.next}
+                                previous = {pagination.previous} 
+                                currPage={currPage} 
+                                setCurrentPage={setCurrentPage} 
+                            />
                         </div>
                     </div>
                 </div>

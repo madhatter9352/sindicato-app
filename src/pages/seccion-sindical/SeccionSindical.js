@@ -1,13 +1,34 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Table } from 'react-bootstrap'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import { Button } from 'semantic-ui-react';
 import { ContentHeader } from '../../components/content-header/ContentHeader'
+import { Loading } from '../../components/loading/Loading';
 import { openModal } from '../../store/reducers/modal';
-import { AddAreaModal } from '../area/AddAreaModal';
+import { getSeccionesSindicales } from '../../store/reducers/seccionSindical';
+import { formatDate } from '../../utils/helpers';
+import { AddAreaModal } from '../area/AreaModal';
 
 export const SeccionSindical = () => {
     const dispatch = useDispatch();
+    const {seccionesSindicales, loading, error} = useSelector(state => state.seccionSindical);
+
+    useEffect(() => {
+        dispatch(getSeccionesSindicales());
+    }, [dispatch])
+
+
+    if(!['fulfilled', 'rejected'].includes(loading)){
+        return <Loading active inline='centered' content='Loading Secciones Sindicales...' />
+    }
+
+    if(loading === 'rejected' && error){
+        toast.error(`${error}`, {
+            theme: 'colored'
+        });
+    }
+
     return (
     <div>
         <ContentHeader title="Sección Sindical" />
@@ -32,36 +53,38 @@ export const SeccionSindical = () => {
                                     <th>Id</th>
                                     <th>Nombre</th>
                                     <th>Creado</th>
+                                    <th>Area</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {
-                                    // areas && areas.map(area => (
-                                    //     <tr 
-                                    //         key={area.id}
-                                    //     >
-                                    //         <td>{area.id}</td>
-                                    //         <td>{area.name}</td>
-                                    //         <td>{formatDate(area.created)}</td>
-                                    //         <td>
-                                    //             <Button 
-                                    //                 color='red'
-                                    //                 icon='trash'
-                                    //                 content='Delete'
-                                    //                 loading={isDeleting && area.id === selected}
-                                    //                 onClick={() => handleDelete(area.id)}
-                                    //             />
+                                    seccionesSindicales && seccionesSindicales.map(seccion => (
+                                        <tr 
+                                            key={seccion.id}
+                                        >
+                                            <td>{seccion.id}</td>
+                                            <td>{seccion.name}</td>
+                                            <td>{formatDate(seccion.created)}</td>
+                                            <td>{seccion.area.name}</td>
+                                            <td>
+                                                <Button 
+                                                    color='red'
+                                                    icon='trash'
+                                                    content='Delete'
+                                                    // loading={isDeleting && area.id === selected}
+                                                    // onClick={() => handleDelete(area.id)}
+                                                />
 
-                                    //             <Button 
-                                    //                 color='yellow'
-                                    //                 icon='edit'
-                                    //                 content='Edit'
-                                    //                 onClick={() => dispatch(openModal(<AddAreaModal id={area.id} />))}
-                                    //             />
-                                    //         </td>
-                                    //     </tr>
-                                    // ))
+                                                <Button 
+                                                    color='yellow'
+                                                    icon='edit'
+                                                    content='Edit'
+                                                    // onClick={() => dispatch(openModal(<AddAreaModal id={area.id} />))}
+                                                />
+                                            </td>
+                                        </tr>
+                                    ))
                                 }
                             </tbody>
                         </Table>

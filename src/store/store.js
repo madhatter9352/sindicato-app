@@ -2,12 +2,14 @@ import { configureStore } from '@reduxjs/toolkit'
 import area from './reducers/area';
 import ui from './reducers/ui';
 import modal from './reducers/modal';
+import seccionSindical from './reducers/seccionSindical';
 
 export const store = configureStore({
     reducer: {
         ui: ui,
         area: area,
-        modal: modal
+        modal: modal,
+        seccionSindical: seccionSindical
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
         serializableCheck: {

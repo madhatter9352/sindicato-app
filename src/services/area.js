@@ -44,3 +44,12 @@ export const EditArea = async(id, name) => {
         throw error;
     }
 }
+
+export const GetAreasByPage = async(page) => {
+    try {
+        const areas = await instance.get(`/area/?page=${page}`);
+        return areas;
+    } catch (error) {
+        throw error;
+    }
+}

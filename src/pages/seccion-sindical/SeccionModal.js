@@ -5,91 +5,66 @@ import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { Button, Loader } from 'semantic-ui-react'
 import * as Yup from 'yup';
-import { GetAreaById } from '../../services/area';
-import { createArea, editArea } from '../../store/reducers/area';
-import { closeModal, setProps } from '../../store/reducers/modal';
+import { GetAreas } from '../../services/area';
+import { closeModal } from '../../store/reducers/modal';
+import { createSeccionSindical } from '../../store/reducers/seccionSindical';
+
 
 const initialState = {
-    name: ''
+    name: '',
+    area: '',
 }
 
-export const AddAreaModal = ({id = null}) => {
+export const SeccionModal = () => {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
     const [formValues, setFormValues] = useState(initialState);
-    
+    const [areas, setAreas] = useState(null);
+
     const handleCreate = async(values) => {
+        //TODO: Quitar set timout
         setTimeout(() => {
-            dispatch(createArea(values));
+            dispatch(createSeccionSindical(values));
             dispatch(closeModal());
         }, 1000)
     };
 
-    const handleEdit = async(values) => {
-        setTimeout(() => {
-            dispatch(editArea({
-                id,
-                name: values
-            }));
-    
-            dispatch(closeModal());
-        }, 1000)
-    }
-
-    const handleCloseModal = () => {
-        dispatch(closeModal());
-    }
-
-    useEffect(() => {
-        if(id){
-            setLoading(true);
-            const getArea = async() => {
-                try {
-                    const area = await GetAreaById(id);
-                    console.log(area);
-                    setFormValues({
-                        name: area.data.name
-                    });
-                    setLoading(false);
-                } catch (error) {
-                    toast.error(`${error.response.statusText}`, {
-                        theme: 'colored'
-                    });
-                    setLoading(false);
-                    dispatch(closeModal())
-                }
-            }
-            setTimeout(() => {
-                getArea();
-            }, 1000)
-        }
-    }, [id, dispatch]);
-
     const {handleChange, values, handleSubmit, touched, errors, isSubmitting} = useFormik({
         initialValues: { 
-            name: formValues.name
+            name: formValues.name,
+            area: formValues.area
         },
         enableReinitialize: true,
         validationSchema: Yup.object({
             name: Yup.string()
             .min(3, 'Must be 3 characters or more')
             .max(30, 'Must be 30 characters or less')
-            .required('Required')
+            .required('Required'),
+            area: Yup.number().required('Required')
         }),
         onSubmit: (values) => {
-            if(id){
-                handleEdit(values);    
-            } else {
-                handleCreate(values);
-            }
+            // if(id){
+            //     handleEdit(values);    
+            // } else {
+            //     handleCreate(values);
+            // }
+            handleCreate(values);
         }
     });
 
-    console.log(values)
-
     useEffect(() => {
-        dispatch(setProps({size: "md", 'aria-labelledby': "contained-modal-title-vcenter", centered: 'centered'}))
-    }, [dispatch]);
+        setLoading(true);
+        GetAreas().then((resp) => {
+            setAreas(resp.results);
+            setLoading(false);
+        })
+    }, []);
+
+    const handleCloseModal = () => {
+        dispatch(closeModal());
+    }
+
+    console.log(areas)
 
     return (
         <>
@@ -97,13 +72,13 @@ export const AddAreaModal = ({id = null}) => {
             loading 
             ?
                 <div>
-                    <Loader active inline='centered' content='Loading area' />
+                    <Loader active inline='centered' content='Loading seccion' />
                 </div>
             :
             <>
                 <Modal.Header>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    Annadir Area
+                    Añadir Sección Sindical
                 </Modal.Title>
                 </Modal.Header>
                 <form onSubmit={handleSubmit}>
@@ -114,7 +89,7 @@ export const AddAreaModal = ({id = null}) => {
                                     id="name"
                                     name="name"
                                     type="text"
-                                    placeholder="Nombre del area"
+                                    placeholder="Sección Sindical"
                                     onChange={handleChange}
                                     value={values.name}
                                     isValid={touched.name && !errors.name}
@@ -129,6 +104,34 @@ export const AddAreaModal = ({id = null}) => {
                                 }
                             </InputGroup>
                         </div>
+
+                        <div className='mb-3'>
+                            <InputGroup>
+                                <Form.Control
+                                    id="area"
+                                    name="area"
+                                    as={"select"}
+                                    onChange={handleChange}
+                                    value={values.area}
+                                    isValid={touched.area && !errors.area}
+                                    isInvalid={touched.area && !!errors.area}
+                                >
+                                    <option>Seleccione un area...</option>
+                                    {
+                                        areas && areas.map((area)=> (
+                                            <option key={area.id} value={area.id}>{area.name}</option>
+                                        ))
+                                    }
+                                </Form.Control>
+                                {
+                                    touched.area && errors.area ? (
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.area}
+                                    </Form.Control.Feedback>
+                                    ) : ''
+                                }
+                            </InputGroup>
+                        </div>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button
@@ -138,7 +141,8 @@ export const AddAreaModal = ({id = null}) => {
                         />
 
                         <Button 
-                            content={id ? 'Actualizar': 'Crear'}
+                            //content={id ? 'Actualizar': 'Crear'}
+                            content={'Crear'}
                             type='submit'
                             primary
                             loading={isSubmitting}
@@ -148,5 +152,5 @@ export const AddAreaModal = ({id = null}) => {
             </> 
         }
         </>
-)
+    )
 }

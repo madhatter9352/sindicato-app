@@ -8,7 +8,7 @@ import { Loading } from '../../components/loading/Loading';
 import { openModal } from '../../store/reducers/modal';
 import { getSeccionesSindicales } from '../../store/reducers/seccionSindical';
 import { formatDate } from '../../utils/helpers';
-import { AddAreaModal } from '../area/AreaModal';
+import { SeccionModal } from './SeccionModal';
 
 export const SeccionSindical = () => {
     const dispatch = useDispatch();
@@ -36,13 +36,13 @@ export const SeccionSindical = () => {
             <div className="container-fluid">
                 <div className="card">
                     <div className="card-header">
-                        <h3 className="card-title">Mantenimiento de Areas</h3>
+                        <h3 className="card-title">Mantenimiento de Secciones Sindicales</h3>
                         <div className="card-tools">
                             <Button 
                                 primary
                                 content="Annadir"
                                 icon="plus"
-                                onClick={() => dispatch(openModal(<AddAreaModal />))}
+                                onClick={() => dispatch(openModal(<SeccionModal />))}
                             />
                         </div>
                     </div>

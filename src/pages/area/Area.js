@@ -3,9 +3,7 @@ import { Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { Button } from 'semantic-ui-react';
-import { ContentHeader } from '../../components/content-header/ContentHeader';
-import { Loading } from '../../components/loading/Loading';
-import { PaginationComponent } from '../../components/pagination/Pagination';
+import { PaginationComponent, Loading, ContentHeader } from '../../components';
 import { deleteArea, getAreasByPage } from '../../store/reducers/area';
 import { openModal } from '../../store/reducers/modal';
 import { formatDate } from '../../utils/helpers';
@@ -24,7 +22,7 @@ export const Area = () => {
 
     useEffect(() => {
         if(currPage){
-            dispatch(getAreasByPage(currPage))
+            dispatch(getAreasByPage(currPage));
         }
     }, [dispatch, currPage]);
 

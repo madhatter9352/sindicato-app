@@ -15,12 +15,20 @@ export const CreateSeccionSindical = async(values) => {
             name: values.name,
             area_id: values.area,
             //TODO: Revisar que se va a hacer con este valor
-            initial_state: 1
+            initial_state_id: 1
         };
 
         const seccion = await instance.post('/union-section/', payload);
-        console.log(seccion);
         return seccion;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const GetSeccionSindicalById = async(id) => {
+    try {
+        const seccion = await instance.get('/union-section/');
+        console.log(seccion);
     } catch (error) {
         throw error;
     }

@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { Button, Loader } from 'semantic-ui-react'
 import * as Yup from 'yup';
 import { GetAreas } from '../../services/area';
-import { closeModal } from '../../store/reducers/modal';
+import { closeModal, setProps } from '../../store/reducers/modal';
 import { createSeccionSindical } from '../../store/reducers/seccionSindical';
 
 
@@ -15,7 +15,7 @@ const initialState = {
     area: '',
 }
 
-export const SeccionModal = () => {
+export const SeccionModal = ({id = null}) => {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
     const [formValues, setFormValues] = useState(initialState);
@@ -54,17 +54,23 @@ export const SeccionModal = () => {
 
     useEffect(() => {
         setLoading(true);
-        GetAreas().then((resp) => {
-            setAreas(resp.results);
-            setLoading(false);
-        })
+        setTimeout(() => {
+            GetAreas().then((resp) => {
+                setAreas(resp.results);
+                setLoading(false);
+            })
+        }, 1000)
     }, []);
+
+    useEffect(() => {
+        dispatch(setProps({size: "md", 'aria-labelledby': "contained-modal-title-vcenter", centered: 'centered'}))
+    }, [dispatch]);
 
     const handleCloseModal = () => {
         dispatch(closeModal());
     }
 
-    console.log(areas)
+    console.log(id)
 
     return (
         <>
@@ -72,7 +78,7 @@ export const SeccionModal = () => {
             loading 
             ?
                 <div>
-                    <Loader active inline='centered' content='Loading seccion' />
+                    <Loader active inline='centered' content='Loading sección' />
                 </div>
             :
             <>
@@ -89,7 +95,7 @@ export const SeccionModal = () => {
                                     id="name"
                                     name="name"
                                     type="text"
-                                    placeholder="Sección Sindical"
+                                    placeholder="Nombre sección sindical"
                                     onChange={handleChange}
                                     value={values.name}
                                     isValid={touched.name && !errors.name}

@@ -80,7 +80,7 @@ export const SeccionSindical = () => {
                                                     color='yellow'
                                                     icon='edit'
                                                     content='Edit'
-                                                    // onClick={() => dispatch(openModal(<AddAreaModal id={area.id} />))}
+                                                    onClick={() => dispatch(openModal(<SeccionModal id={seccion.id} />))}
                                                 />
                                             </td>
                                         </tr>

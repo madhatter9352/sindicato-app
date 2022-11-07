@@ -46,7 +46,6 @@ export const AddAreaModal = ({id = null}) => {
             const getArea = async() => {
                 try {
                     const area = await GetAreaById(id);
-                    console.log(area);
                     setFormValues({
                         name: area.data.name
                     });

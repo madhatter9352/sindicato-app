@@ -19,7 +19,7 @@ export const createSeccionSindical = createAsyncThunk(
         try {
             const secciones = await CreateSeccionSindical(values);
             console.log(secciones)
-            return secciones;
+            return secciones.data;
         } catch (error) {
             return rejectWithValue(error.response.statusText)
         }
@@ -48,7 +48,7 @@ const seccionSindicalSlice = createSlice({
         });
 
         builder.addCase(createSeccionSindical.fulfilled, (state, action) => {
-            state.seccionesSindicales.push(action.payload.results);
+            state.seccionesSindicales.push(action.payload);
             state.loading = action.meta.requestStatus;
         });
         builder.addCase(createSeccionSindical.pending, (state, action) => {

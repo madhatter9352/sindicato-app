@@ -6,23 +6,26 @@ import { setWindowClass } from '../../utils/helpers';
 
 import * as Yup from 'yup';
 import { Button, Checkbox } from 'semantic-ui-react';
+import {login} from "../../store/reducers/auth";
+import {useDispatch, useSelector} from "react-redux";
 
 export const Login = () => {
-        
+        const dispatch = useDispatch();
+        const {error} = useSelector(state => state.auth);
         const {handleChange, values, handleSubmit, touched, errors} = useFormik({
             initialValues: {
-                email: '',
+                username: '',
                 password: ''
             },
             validationSchema: Yup.object({
-                email: Yup.string().email('Invalid email address').required('Required'),
+                username: Yup.string().required('Required'),
                 password: Yup.string()
                 .min(5, 'Must be 5 characters or more')
                 .max(30, 'Must be 30 characters or less')
                 .required('Required')
             }),
             onSubmit: (values) => {
-                console.log(values)
+                dispatch(login(values))
             }
         });
 
@@ -38,23 +41,24 @@ export const Login = () => {
                 </div>
                 <div className='card-body'>
                     <p className="login-box-msg">Inicia sesión para comenzar</p>
+                    {error && <p className="login-box-msg text-danger">Usuario o contraseña incorrectos</p>}
                     <form onSubmit={handleSubmit}>
                         <div className='mb-3'>
                             <InputGroup className="mb-3">
                                 <Form.Control
-                                    id="email"
-                                    name="email"
-                                    type="email"
-                                    placeholder="Email"
+                                    id="username"
+                                    name="username"
+                                    type="text"
+                                    placeholder="Username"
                                     onChange={handleChange}
-                                    value={values.email}
-                                    isValid={touched.email && !errors.email}
-                                    isInvalid={touched.email && !!errors.email}
+                                    value={values.username}
+                                    isValid={touched.username && !errors.username}
+                                    isInvalid={touched.username && !!errors.username}
                                 />
                                 {
-                                    touched.email && errors.email ? (
+                                    touched.username && errors.username ? (
                                     <Form.Control.Feedback type="invalid">
-                                        {errors.email}
+                                        {errors.username}
                                     </Form.Control.Feedback>
                                     ) : (
                                     <InputGroup.Text>
@@ -95,7 +99,7 @@ export const Login = () => {
                                 <Checkbox label='Recuerdame' />
                             </div>
                             <div className='col-4'>
-                                <Button 
+                                <Button
                                     primary
                                     type='submit'
                                     content='Entrar'
@@ -106,14 +110,14 @@ export const Login = () => {
 
                     <p className="mb-1">
                         <Link to="/forgot-password">
-                            Olvide la contrasenna
+                            Olvide la contraseña
                         </Link>
                     </p>
-                    <p className="mb-0">
-                        <Link to="/register" className="text-center">
-                            Registrar un nuevo usuario
-                        </Link>
-                    </p>
+                    {/*<p className="mb-0">*/}
+                        {/*<Link to="/register" className="text-center">*/}
+                        {/*    Registrar un nuevo usuario*/}
+                        {/*</Link>*/}
+                    {/*</p>*/}
                 </div>
             </div>
         </div>

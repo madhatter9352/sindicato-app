@@ -12,11 +12,20 @@ import {useDispatch, useSelector} from "react-redux";
 export const Login = () => {
         const dispatch = useDispatch();
         const {error} = useSelector(state => state.auth);
-        const {handleChange, values, handleSubmit, touched, errors} = useFormik({
+
+        const handleLogin = async({values, setSubmitting}) => {
+            dispatch(login(values));
+            setTimeout(() => {
+                setSubmitting(false);
+            }, 1000)
+        }
+
+        const {handleChange, values, handleSubmit, touched, errors, isSubmitting} = useFormik({
             initialValues: {
                 username: '',
                 password: ''
             },
+            enableReinitialize: true,
             validationSchema: Yup.object({
                 username: Yup.string().required('Required'),
                 password: Yup.string()
@@ -24,8 +33,8 @@ export const Login = () => {
                 .max(30, 'Must be 30 characters or less')
                 .required('Required')
             }),
-            onSubmit: (values) => {
-                dispatch(login(values))
+            onSubmit: (values, {setSubmitting}) => {
+                handleLogin({values, setSubmitting});
             }
         });
 
@@ -102,6 +111,7 @@ export const Login = () => {
                                 <Button
                                     primary
                                     type='submit'
+                                    loading={isSubmitting}
                                     content='Entrar'
                                 />
                             </div>
@@ -109,15 +119,10 @@ export const Login = () => {
                     </form>
 
                     <p className="mb-1">
-                        <Link to="/forgot-password">
-                            Olvide la contraseña
+                        <Link to="/register">
+                            Crear una cuenta
                         </Link>
                     </p>
-                    {/*<p className="mb-0">*/}
-                        {/*<Link to="/register" className="text-center">*/}
-                        {/*    Registrar un nuevo usuario*/}
-                        {/*</Link>*/}
-                    {/*</p>*/}
                 </div>
             </div>
         </div>

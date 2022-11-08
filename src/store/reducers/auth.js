@@ -1,10 +1,11 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {Login, Logout} from "../../services/auth";
+import {Login, Logout, Register} from "../../services/auth";
 
 export const login = createAsyncThunk(
     'login',
-    async (params, {rejectWithValue}) => {
+    async (params, {rejectWithValue, dispatch}) => {
         try {
+            dispatch(clearError());
             const login = await Login(params)
             const data = login.data
             localStorage.setItem('access_token', data['access_token'])
@@ -29,6 +30,19 @@ export const logout = createAsyncThunk(
     }
 )
 
+export const register = createAsyncThunk(
+    'register',
+    async(values, {rejectWithValue}) => {
+        try {
+            const register = await Register(values);
+            console.log(register)
+            return register;
+        } catch (error) {
+            return rejectWithValue(error.response.statusText);
+        }
+    }
+)
+
 const authSlice = createSlice({
     name: 'auth',
     initialState: {
@@ -37,7 +51,11 @@ const authSlice = createSlice({
         error: null,
         user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null,
     },
-    reducers: {},
+    reducers: {
+        clearError(state, action){
+            state.error= null;
+        }
+    },
     extraReducers: (builder) => {
         builder.addCase(login.fulfilled, (state, action) => {
             window.location.href = '/'
@@ -74,7 +92,24 @@ const authSlice = createSlice({
             state.user = null
             window.location.href = '/'
         });
+
+        builder.addCase(register.fulfilled, (state, action) => {
+            window.location.href = '/login';
+        });
+
+        builder.addCase(register.pending, (state, action) => {
+            state.error = null
+            state.loading = action.meta.requestStatus;
+        });
+
+        builder.addCase(register.rejected, (state, action) => {
+            state.error = action.payload;
+            state.loading = action.meta.requestStatus;
+            state.isAuthenticated = false
+        });
     }
 });
+
+export const {clearError} = authSlice.actions;
 
 export default authSlice.reducer;

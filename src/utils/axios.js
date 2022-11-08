@@ -6,7 +6,7 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use(function (config) {
-    if (config.url.indexOf('login') === -1) {
+    if (config.url.indexOf('login') === -1 && config.url.indexOf('user') === -1) {
         config.headers['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
     }
     return config;

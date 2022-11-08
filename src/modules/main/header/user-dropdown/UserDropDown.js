@@ -7,7 +7,7 @@ import {logout} from "../../../../store/reducers/auth";
 
 export const UserDropDown = () => {
     const dispatch = useDispatch();
-    //const {user} = useSelector(state => state.auth);
+    const {user} = useSelector(state => state.auth);
     const handleLogout = () => {
         dispatch(logout())
     }
@@ -15,8 +15,8 @@ export const UserDropDown = () => {
         <div className='nav-link' style={{paddingLeft: '0'}}>
             <Dropdown 
                 pointing='top left' 
-                //text={user.first_name + ' ' + user.last_name}
-                text='Jhon doe'
+                text={user.first_name + ' ' + user.last_name}
+                //text='Jhon doe'
             >
                 <Dropdown.Menu direction='left'>
                     <Dropdown.Item as={Link} to={`/`} text='My Profile' icon='user'/>

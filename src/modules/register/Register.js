@@ -5,28 +5,32 @@ import { useFormik } from 'formik';
 import { Link } from 'react-router-dom';
 import { Form, InputGroup } from 'react-bootstrap';
 import { Checkbox, Button } from 'semantic-ui-react';
+import { useDispatch } from 'react-redux';
+import { register } from '../../store/reducers/auth';
 
 export const Register = () => {
+    const dispatch = useDispatch();
+
     const {handleChange, values, handleSubmit, touched, errors} = useFormik({
         initialValues: {
-            name: '',
-            lastName: '',
-            userName: '',
+            first_name: '',
+            last_name: '',
+            username: '',
             email: '',
             password: '',
             passwordRetype: '',
             acceptTerms: false
         },
         validationSchema: Yup.object({
-            name: Yup.string()
+            first_name: Yup.string()
                     .min(3)
                     .max(50)
                     .required('Required'),
-            lastName: Yup.string()
+            last_name: Yup.string()
                         .min(3)
                         .max(50)
                         .required('Required'),
-            userName: Yup.string()
+            username: Yup.string()
                         .min(3)
                         .max(50)
                         .required('Required'),
@@ -49,12 +53,12 @@ export const Register = () => {
             acceptTerms: Yup.bool().oneOf([true], 'You should accept the terms')                    
         }),
         onSubmit: (values) => {
-            console.log(values)
+            delete values.acceptTerms;
+            //TODO: Validar lo de la posicion;
+            values.position = 1;
+            dispatch(register(values))
         }
     });
-
-    console.log(errors.acceptTerms)
-    console.log(values)
     
     setWindowClass('hold-transition register-page');
     
@@ -73,19 +77,19 @@ export const Register = () => {
                         <div className='mb-3'>
                             <InputGroup className="mb-3">
                                 <Form.Control
-                                    id="name"
-                                    name="name"
+                                    id="first_name"
+                                    name="first_name"
                                     type="text"
                                     placeholder="Nombre"
                                     onChange={handleChange}
-                                    value={values.name}
-                                    isValid={touched.name && !errors.name}
-                                    isInvalid={touched.name && !!errors.name}
+                                    value={values.first_name}
+                                    isValid={touched.first_name && !errors.first_name}
+                                    isInvalid={touched.first_name && !!errors.first_name}
                                 />
                                 {
-                                    touched.name && errors.name ? (
+                                    touched.first_name && errors.first_name ? (
                                     <Form.Control.Feedback type="invalid">
-                                        {errors.name}
+                                        {errors.first_name}
                                     </Form.Control.Feedback>
                                     ) : (
                                     <InputGroup.Text>
@@ -99,19 +103,19 @@ export const Register = () => {
                         <div className='mb-3'>
                             <InputGroup className="mb-3">
                                 <Form.Control
-                                    id="lastName"
-                                    name="lastName"
+                                    id="last_name"
+                                    name="last_name"
                                     type="text"
                                     placeholder="Apellidos"
                                     onChange={handleChange}
-                                    value={values.lastName}
-                                    isValid={touched.lastName && !errors.lastName}
-                                    isInvalid={touched.lastName && !!errors.lastName}
+                                    value={values.last_name}
+                                    isValid={touched.last_name && !errors.last_name}
+                                    isInvalid={touched.last_name && !!errors.last_name}
                                 />
                                 {
-                                    touched.lastName && errors.lastName ? (
+                                    touched.last_name && errors.last_name ? (
                                     <Form.Control.Feedback type="invalid">
-                                        {errors.lastName}
+                                        {errors.last_name}
                                     </Form.Control.Feedback>
                                     ) : (
                                     <InputGroup.Text>
@@ -125,19 +129,19 @@ export const Register = () => {
                         <div className='mb-3'>
                             <InputGroup className="mb-3">
                                 <Form.Control
-                                    id="userName"
-                                    name="userName"
+                                    id="username"
+                                    name="username"
                                     type="text"
                                     placeholder="Nombre de usuario"
                                     onChange={handleChange}
-                                    value={values.userName}
-                                    isValid={touched.userName && !errors.userName}
-                                    isInvalid={touched.userName && !!errors.userName}
+                                    value={values.username}
+                                    isValid={touched.username && !errors.username}
+                                    isInvalid={touched.username && !!errors.username}
                                 />
                                 {
-                                    touched.userName && errors.userName ? (
+                                    touched.username && errors.username ? (
                                     <Form.Control.Feedback type="invalid">
-                                        {errors.userName}
+                                        {errors.username}
                                     </Form.Control.Feedback>
                                     ) : (
                                     <InputGroup.Text>
@@ -205,7 +209,7 @@ export const Register = () => {
                                 <Form.Control
                                     id="passwordRetype"
                                     name="passwordRetype"
-                                    type="passwordRetype"
+                                    type="password"
                                     placeholder="Repita el password"
                                     onChange={handleChange}
                                     value={values.passwordRetype}

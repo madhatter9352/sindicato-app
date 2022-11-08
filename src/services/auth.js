@@ -15,3 +15,11 @@ export const Logout = async () => {
         throw error;
     }
 }
+
+export const Register = async (params) => {
+    try {
+        return await instance.post('/user/', params);
+    } catch (error) {
+        throw error;
+    }
+}

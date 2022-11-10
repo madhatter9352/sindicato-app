@@ -19,6 +19,17 @@ instance.interceptors.response.use(async response => {
     return response;
 }, async error => {
     const originalRequest = error.config;
+
+    if (error.code === 'ERR_NETWORK') {
+        toast.error(`${error.message}`, {
+            theme: 'colored'
+        });
+    } 
+    if(error.response.status === 500) {
+        //const {data, status, config} = error.response;
+        window.location.href = '/server-error';
+    }
+    
     if (error.response.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
         const access = await refreshAccessToken();
@@ -27,13 +38,6 @@ instance.interceptors.response.use(async response => {
     } else if (error.response.status === 401 && originalRequest._retry) {
         localStorage.clear()
         window.location.href = '/'
-    }
-    if (error.code === 'ERR_NETWORK') {
-        toast.error(`${error.message}`, {
-            theme: 'colored'
-        });
-    } else {
-        const {data, status, config} = error.response;
     }
     return Promise.reject(error);
 })

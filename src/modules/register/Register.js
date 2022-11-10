@@ -5,13 +5,21 @@ import { useFormik } from 'formik';
 import { Link } from 'react-router-dom';
 import { Form, InputGroup } from 'react-bootstrap';
 import { Checkbox, Button } from 'semantic-ui-react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../../store/reducers/auth';
 
 export const Register = () => {
     const dispatch = useDispatch();
+    const {error} = useSelector(state => state.auth)
 
-    const {handleChange, values, handleSubmit, touched, errors} = useFormik({
+    const handleRegister = async({values, setSubmitting}) => {
+            dispatch(register(values));
+            setTimeout(() => {
+                setSubmitting(false);
+            }, 1000)
+    } 
+
+    const {handleChange, values, handleSubmit, touched, errors, isSubmitting} = useFormik({
         initialValues: {
             first_name: '',
             last_name: '',
@@ -21,6 +29,7 @@ export const Register = () => {
             passwordRetype: '',
             acceptTerms: false
         },
+        enableReinitialize: true,
         validationSchema: Yup.object({
             first_name: Yup.string()
                     .min(3)
@@ -52,11 +61,10 @@ export const Register = () => {
                                 }),
             acceptTerms: Yup.bool().oneOf([true], 'You should accept the terms')                    
         }),
-        onSubmit: (values) => {
+        onSubmit: (values, {setSubmitting}) => {
             delete values.acceptTerms;
-            //TODO: Validar lo de la posicion;
-            values.position = 1;
-            dispatch(register(values))
+            handleRegister({values, setSubmitting})
+            
         }
     });
     
@@ -73,6 +81,15 @@ export const Register = () => {
                 </div>
                 <div className='card-body'>
                     <p className="login-box-msg">Registra un nuevo usuario</p>
+                    {error && (
+                        <ul>
+                            {
+                                Object.keys(error).map((key, i) => {
+                                    return <li key={i} className='text-danger'>{error[key]}</li>
+                                })
+                            }
+                        </ul>
+                    )}
                     <form onSubmit={handleSubmit}>
                         <div className='mb-3'>
                             <InputGroup className="mb-3">
@@ -253,6 +270,7 @@ export const Register = () => {
                                 <Button 
                                     primary
                                     type='submit'
+                                    loading={isSubmitting}
                                     content='Registrar'
                                 />
                             </div>

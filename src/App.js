@@ -11,12 +11,16 @@ import { SeccionSindical } from './pages/seccion-sindical/SeccionSindical';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { clearAreaState } from './store/reducers/area';
+import { ServerError } from './components/errors/ServerError';
+import { clearError } from './store/reducers/auth';
+import { createBrowserHistory } from 'history';
 
 function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(clearAreaState());
+    dispatch(clearError());
   }, [dispatch]);
   
   return (
@@ -27,6 +31,9 @@ function App() {
         </Route>
         <Route path="/register" element={<PublicRoute />}>
           <Route path="/register" element={<Register />} />
+        </Route>
+        <Route path='/server-error' element={<PublicRoute />} >
+          <Route path='/server-error' element={<ServerError />} />
         </Route>
         <Route path='/' element={<PrivateRoute />}>
           <Route path='/' element={<Home />}>

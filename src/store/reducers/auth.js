@@ -1,4 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 import {Login, Logout, Register} from "../../services/auth";
 
 export const login = createAsyncThunk(
@@ -11,6 +12,10 @@ export const login = createAsyncThunk(
             localStorage.setItem('access_token', data['access_token'])
             localStorage.setItem('refresh_token', data['refresh_token'])
             localStorage.setItem('user', JSON.stringify(data['user']))
+
+            toast.success('Login correcto', {
+                theme: 'colored'
+            });
             return data
         } catch (error) {
             return rejectWithValue(error.response.statusText);
@@ -35,10 +40,12 @@ export const register = createAsyncThunk(
     async(values, {rejectWithValue}) => {
         try {
             const register = await Register(values);
-            console.log(register)
+            toast.success('Registrado correctamente', {
+                theme: 'colored'
+            });
             return register;
         } catch (error) {
-            return rejectWithValue(error.response.statusText);
+            return rejectWithValue(error.response.status === 400 ? error.response.data : null);
         }
     }
 )

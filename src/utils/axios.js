@@ -1,5 +1,6 @@
 import axios from "axios";
 import {toast} from "react-toastify";
+import { history } from "../App";
 
 const instance = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
@@ -27,7 +28,8 @@ instance.interceptors.response.use(async response => {
     } 
     if(error.response.status === 500) {
         //const {data, status, config} = error.response;
-        window.location.href = '/server-error';
+        console.log(error)
+        history.push('/server-error', error.response.data);
     }
     
     if (error.response.status === 401 && !originalRequest._retry) {

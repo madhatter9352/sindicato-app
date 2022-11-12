@@ -2,8 +2,8 @@ import { useLocation } from "react-router-dom";
 import { Container, Header, Segment } from "semantic-ui-react";
 
 export const ServerError = () => {
-    const location = useLocation();
-    console.log(location);
+    const {state: data} = useLocation();
+
     const commonStore = {
         error: {
             details: 'Something went wrong',
@@ -19,7 +19,7 @@ export const ServerError = () => {
                 commonStore.error?.details && (
                     <Segment>
                         <Header as='h4' content='Stack trace' color='teal' />
-                        {/* <code style={{marginTop: '10px',}}>{data?.details}</code> */}
+                        <code style={{marginTop: '10px',}}>{data}</code>
                     </Segment>
                 )
             }

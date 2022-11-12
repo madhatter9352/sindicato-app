@@ -27,8 +27,21 @@ export const CreateSeccionSindical = async(values) => {
 
 export const GetSeccionSindicalById = async(id) => {
     try {
-        const seccion = await instance.get('/union-section/');
-        console.log(seccion);
+        const seccion = await instance.get(`/union-section/${id}`);
+        return seccion;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const UpdateSeccionSindical = async(id, name, area) => {
+    try {
+        const seccion = await instance.put(`/union-section/${id}/`, {
+            name,
+            area_id: area,
+            initial_state_id: 1
+        });
+        return seccion;
     } catch (error) {
         throw error;
     }

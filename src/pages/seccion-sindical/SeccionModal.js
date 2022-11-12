@@ -6,8 +6,9 @@ import { toast } from 'react-toastify';
 import { Button, Loader } from 'semantic-ui-react'
 import * as Yup from 'yup';
 import { GetAreas } from '../../services/area';
+import { GetSeccionSindicalById } from '../../services/seccionSindical';
 import { closeModal, setProps } from '../../store/reducers/modal';
-import { createSeccionSindical } from '../../store/reducers/seccionSindical';
+import { createSeccionSindical, updateSeccion } from '../../store/reducers/seccionSindical';
 
 
 const initialState = {
@@ -29,6 +30,18 @@ export const SeccionModal = ({id = null}) => {
         }, 1000)
     };
 
+    const handleEdit = async(values) => {
+        setTimeout(() => {
+            dispatch(updateSeccion({
+                id,
+                name: values.name,
+                area: values.area
+            }));
+    
+            dispatch(closeModal());
+        }, 1000)
+    }
+
     const {handleChange, values, handleSubmit, touched, errors, isSubmitting} = useFormik({
         initialValues: { 
             name: formValues.name,
@@ -43,24 +56,54 @@ export const SeccionModal = ({id = null}) => {
             area: Yup.number().required('Required')
         }),
         onSubmit: (values) => {
-            // if(id){
-            //     handleEdit(values);    
-            // } else {
-            //     handleCreate(values);
-            // }
-            handleCreate(values);
+            if(id){
+                handleEdit(values);    
+            } else {
+                handleCreate(values);
+            }
         }
     });
 
+    // useEffect(() => {
+    //     GetAreas().then((resp) => {
+    //         setAreas(resp.results);
+    //     })
+    // }, []);
+
     useEffect(() => {
         setLoading(true);
-        setTimeout(() => {
-            GetAreas().then((resp) => {
-                setAreas(resp.results);
-                setLoading(false);
-            })
-        }, 1000)
-    }, []);
+        const getareas = async() => {
+            const areas = await GetAreas();
+            setAreas(areas.results);
+            !id && setLoading(false);
+        }
+
+        getareas();
+
+        if(id){
+            const getSeccion = async() => {
+                try {
+                    const seccion = await GetSeccionSindicalById(id);
+                    setFormValues({
+                        name: seccion.data.name,
+                        area: seccion.data.area.id
+                    });
+                    setLoading(false);
+                } catch (error) {
+                    toast.error(`${error.response.statusText}`, {
+                        theme: 'colored'
+                    });
+                    setLoading(false);
+                    dispatch(closeModal())
+                }
+            }
+
+            setTimeout(() => {
+                getSeccion();
+            }, 1000)
+        }
+
+    }, [dispatch, id]);
 
     useEffect(() => {
         dispatch(setProps({size: "md", 'aria-labelledby': "contained-modal-title-vcenter", centered: 'centered'}))
@@ -69,8 +112,6 @@ export const SeccionModal = ({id = null}) => {
     const handleCloseModal = () => {
         dispatch(closeModal());
     }
-
-    console.log(id)
 
     return (
         <>
@@ -147,8 +188,7 @@ export const SeccionModal = ({id = null}) => {
                         />
 
                         <Button 
-                            //content={id ? 'Actualizar': 'Crear'}
-                            content={'Crear'}
+                            content={id ? 'Actualizar': 'Crear'}
                             type='submit'
                             primary
                             loading={isSubmitting}

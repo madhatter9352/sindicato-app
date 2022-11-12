@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { CreateSeccionSindical, GetSeccionesSindicales } from "../../services/seccionSindical";
+import { CreateSeccionSindical, GetSeccionesSindicales, UpdateSeccionSindical } from "../../services/seccionSindical";
 
 export const getSeccionesSindicales = createAsyncThunk(
     'getSeccionesSindicales',
@@ -8,7 +8,7 @@ export const getSeccionesSindicales = createAsyncThunk(
             const secciones = await GetSeccionesSindicales();
             return secciones;
         } catch (error) {
-            return rejectWithValue(error.response.statusText)
+            return rejectWithValue(error.response.statusText);
         }
     }
 );
@@ -21,7 +21,19 @@ export const createSeccionSindical = createAsyncThunk(
             console.log(secciones)
             return secciones.data;
         } catch (error) {
-            return rejectWithValue(error.response.statusText)
+            return rejectWithValue(error.response.statusText);
+        }
+    }
+);
+
+export const updateSeccion = createAsyncThunk(
+    'updateSeccion',
+    async({id, name, area}, {rejectWithValue}) => {
+        try {
+            const seccion = await UpdateSeccionSindical(id, name, area);
+            return seccion.data;
+        } catch (error) {
+            return rejectWithValue(error.response.statusText);
         }
     }
 );
@@ -55,6 +67,19 @@ const seccionSindicalSlice = createSlice({
             state.loading = action.meta.requestStatus;
         });
         builder.addCase(createSeccionSindical.rejected, (state, action) => {
+            state.error = action.payload;
+            state.loading = action.meta.requestStatus;
+        });
+
+        builder.addCase(updateSeccion.fulfilled, (state, action) => {
+            const index = state.seccionesSindicales.findIndex(seccion => seccion.id === action.payload.id);
+            state.seccionesSindicales[index] = action.payload;
+            state.loading = action.meta.requestStatus;
+        });
+        builder.addCase(updateSeccion.pending, (state, action) => {
+            state.loading = action.meta.requestStatus;
+        });
+        builder.addCase(updateSeccion.rejected, (state, action) => {
             state.error = action.payload;
             state.loading = action.meta.requestStatus;
         });

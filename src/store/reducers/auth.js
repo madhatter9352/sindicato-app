@@ -1,5 +1,6 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
+import { history } from "../../App";
 import {Login, Logout, Register} from "../../services/auth";
 
 export const login = createAsyncThunk(
@@ -65,7 +66,8 @@ const authSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(login.fulfilled, (state, action) => {
-            window.location.href = '/'
+            //window.location.href = '/'
+            history.push('/')
         });
 
         builder.addCase(login.pending, (state, action) => {

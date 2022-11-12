@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import {Route, Routes } from 'react-router-dom';
 import { Area } from './pages/area/Area';
 import { Login } from './modules/login/Login';
 import { Home } from './modules/main/Home';
@@ -14,6 +14,9 @@ import { clearAreaState } from './store/reducers/area';
 import { ServerError } from './components/errors/ServerError';
 import { clearError } from './store/reducers/auth';
 import { createBrowserHistory } from 'history';
+import {unstable_HistoryRouter as HistoryRouter} from 'react-router-dom';
+
+export const history = createBrowserHistory();
 
 function App() {
   const dispatch = useDispatch();
@@ -24,7 +27,7 @@ function App() {
   }, [dispatch]);
   
   return (
-    <BrowserRouter>
+    <HistoryRouter history={history}>
       <Routes>
         <Route path="/login" element={<PublicRoute />}>
           <Route path="/login" element={<Login />} />
@@ -54,7 +57,7 @@ function App() {
         pauseOnHover
       />
       <ModalContainer />
-    </BrowserRouter>
+    </HistoryRouter>
   );
 }
 

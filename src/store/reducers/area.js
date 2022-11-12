@@ -34,7 +34,6 @@ export const deleteArea = createAsyncThunk(
                 return id;
             }
         } catch (error) {
-            console.log(error.response.statusText)
             return rejectWithValue(error.response.statusText);
         }
     }

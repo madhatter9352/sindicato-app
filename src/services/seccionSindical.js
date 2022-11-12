@@ -46,3 +46,21 @@ export const UpdateSeccionSindical = async(id, name, area) => {
         throw error;
     }
 }
+
+export const DeleteSeccion = async(id) => {
+    try {
+        const response = await instance.delete(`/union-section/${id}/`);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const GetSeccionesByPage = async(page) => {
+    try {
+        const secciones = await instance.get(`/union-section/?page=${page}`);
+        return secciones.data;
+    } catch (error) {
+        throw error;
+    }
+}

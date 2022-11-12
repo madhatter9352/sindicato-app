@@ -13,7 +13,7 @@ export const MENU = [
 
         {
             name: 'Usuarios',
-            path: '/usuarios'
+            path: '/usuario'
         },
         {
             name: 'Seccion Sindical',

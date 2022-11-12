@@ -15,6 +15,7 @@ import { ServerError } from './components/errors/ServerError';
 import { clearError } from './store/reducers/auth';
 import { createBrowserHistory } from 'history';
 import {unstable_HistoryRouter as HistoryRouter} from 'react-router-dom';
+import { Usuario } from './pages/usuario/Usuario';
 
 export const history = createBrowserHistory();
 
@@ -42,6 +43,7 @@ function App() {
           <Route path='/' element={<Home />}>
               <Route path='/area' element={<Area />} />
               <Route path='/seccion-sindical' element={<SeccionSindical />} />
+              <Route path='/usuario' element={<Usuario />} />
           </Route>
         </Route>
       </Routes>

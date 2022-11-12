@@ -1,22 +1,26 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Table } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { Button } from 'semantic-ui-react';
+import { PaginationComponent } from '../../components';
 import { ContentHeader } from '../../components/content-header/ContentHeader'
 import { Loading } from '../../components/loading/Loading';
 import { openModal } from '../../store/reducers/modal';
-import { getSeccionesSindicales } from '../../store/reducers/seccionSindical';
+import { deleteSeccion, getSeccionesByPage } from '../../store/reducers/seccionSindical';
 import { formatDate } from '../../utils/helpers';
 import { SeccionModal } from './SeccionModal';
 
 export const SeccionSindical = () => {
     const dispatch = useDispatch();
-    const {seccionesSindicales, loading, error} = useSelector(state => state.seccionSindical);
+    const {seccionesSindicales, loading, error, pagination} = useSelector(state => state.seccionSindical);
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [selected, setSelected] = useState(null);
+    const [currPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
-        dispatch(getSeccionesSindicales());
-    }, [dispatch])
+        dispatch(getSeccionesByPage(currPage));
+    }, [dispatch, currPage]);
 
 
     if(!['fulfilled', 'rejected'].includes(loading)){
@@ -27,6 +31,15 @@ export const SeccionSindical = () => {
         toast.error(`${error}`, {
             theme: 'colored'
         });
+    }
+
+    const handleDelete = (id) => {
+        setSelected(id);
+        setIsDeleting(true);
+        setTimeout(() => {
+            dispatch(deleteSeccion(id));
+            setIsDeleting(false);
+        }, 1000);
     }
 
     return (
@@ -72,8 +85,8 @@ export const SeccionSindical = () => {
                                                     color='red'
                                                     icon='trash'
                                                     content='Delete'
-                                                    // loading={isDeleting && area.id === selected}
-                                                    // onClick={() => handleDelete(area.id)}
+                                                    loading={isDeleting && seccion.id === selected}
+                                                    onClick={() => handleDelete(seccion.id)}
                                                 />
 
                                                 <Button 
@@ -89,8 +102,21 @@ export const SeccionSindical = () => {
                             </tbody>
                         </Table>
                     </div>
-                    <div className="card-footer">
-                        Footer
+                    <div 
+                        className="card-footer"
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        <PaginationComponent 
+                            totalItems={pagination.count} 
+                            itemsPerPage={8}
+                            next = {pagination.next}
+                            previous = {pagination.previous} 
+                            currPage={currPage} 
+                            setCurrentPage={setCurrentPage} 
+                        />
                     </div>
                 </div>
             </div>

@@ -16,10 +16,6 @@ export const Area = () => {
     const [selected, setSelected] = useState(null);
     const [currPage, setCurrentPage] = useState(1);
 
-    // useEffect(() => {
-    //     dispatch(getAreas());
-    // }, [dispatch]);
-
     useEffect(() => {
         if(currPage){
             dispatch(getAreasByPage(currPage));
@@ -103,10 +99,13 @@ export const Area = () => {
                                 </tbody>
                             </Table>
                         </div>
-                        <div className="card-footer" style={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                        }}>
+                        <div 
+                            className="card-footer" 
+                            style={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                            }}
+                        >
                             <PaginationComponent 
                                 totalItems={pagination.count} 
                                 itemsPerPage={8}

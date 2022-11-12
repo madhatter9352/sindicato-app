@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { CreateSeccionSindical, GetSeccionesSindicales, UpdateSeccionSindical } from "../../services/seccionSindical";
+import { CreateSeccionSindical, DeleteSeccion, GetSeccionesByPage, GetSeccionesSindicales, UpdateSeccionSindical } from "../../services/seccionSindical";
 
 export const getSeccionesSindicales = createAsyncThunk(
     'getSeccionesSindicales',
@@ -38,12 +38,40 @@ export const updateSeccion = createAsyncThunk(
     }
 );
 
+export const deleteSeccion = createAsyncThunk(
+    'deleteSeccion',
+    async(id, {rejectWithValue}) => {
+        try {
+            const seccion = await DeleteSeccion(id)
+            if(seccion.status === 204){
+                return id;
+            }
+        } catch (error) {
+            return rejectWithValue(error.response.statusText);
+        }
+    }
+)
+
+export const getSeccionesByPage = createAsyncThunk(
+    'getSeccionesByPage',
+    async(page, {rejectWithValue}) => {
+        try {
+            const secciones = await GetSeccionesByPage(page);
+            console.log(secciones);
+            return secciones;
+        } catch (error) {
+            return rejectWithValue(error.response.statusText);
+        }
+    }
+)
+
 const seccionSindicalSlice = createSlice({
     name: 'seccionSindical',
     initialState: {
         seccionesSindicales: [],
         loading: 'idle',
-        error: ''
+        error: '',
+        pagination: null
     },
     reducers: {},
     extraReducers(builder) {
@@ -83,6 +111,42 @@ const seccionSindicalSlice = createSlice({
             state.error = action.payload;
             state.loading = action.meta.requestStatus;
         });
+
+        builder.addCase(deleteSeccion.fulfilled, (state, action) => {
+            const index = state.seccionesSindicales.findIndex(a => a.id === action.payload);
+            state.seccionesSindicales.splice(index, 1);
+            state.loading = action.meta.requestStatus;
+        });
+
+        builder.addCase(deleteSeccion.pending, (state, action) => {
+            state.loading = action.meta.requestStatus;
+        });
+
+        builder.addCase(deleteSeccion.rejected, (state, action) => {
+            state.error = action.payload;
+            state.loading = action.meta.requestStatus;
+        });
+
+        builder.addCase(getSeccionesByPage.fulfilled, (state, action) => {
+            state.seccionesSindicales = action.payload.results;
+            state.loading = action.meta.requestStatus;
+            state.pagination = {
+                count: action.payload.count,
+                next: !!action.payload.next,
+                previous: !!action.payload.previous
+            }
+        });
+
+        builder.addCase(getSeccionesByPage.pending, (state, action) => {
+            state.loading = action.meta.requestStatus;
+        });
+
+        builder.addCase(getSeccionesByPage.rejected, (state, action) => {
+            state.error = action.payload;
+            state.loading = action.meta.requestStatus;
+        });
+
+
     }
 });
 

@@ -145,8 +145,6 @@ const seccionSindicalSlice = createSlice({
             state.error = action.payload;
             state.loading = action.meta.requestStatus;
         });
-
-
     }
 });
 

@@ -7,7 +7,9 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use(function (config) {
-    if (config.url.indexOf('login') === -1 && config.url.indexOf('user') === -1) {
+    console.log(config)
+    if (config.url.indexOf('login') === -1 && (config.url.indexOf('user') === -1 && config.method !== 'post')) {
+        console.log('token')
         config.headers['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
     }
     return config;
@@ -31,7 +33,7 @@ instance.interceptors.response.use(async response => {
         console.log(error)
         history.push('/server-error', error.response.data);
     }
-    
+    console.log(error)
     if (error.response.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
         const access = await refreshAccessToken();
@@ -39,7 +41,7 @@ instance.interceptors.response.use(async response => {
         return instance(originalRequest);
     } else if (error.response.status === 401 && originalRequest._retry) {
         localStorage.clear()
-        window.location.href = '/'
+        //window.location.href = '/'
     }
     return Promise.reject(error);
 })

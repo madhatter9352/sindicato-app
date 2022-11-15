@@ -4,6 +4,7 @@ import auth from './reducers/auth';
 import ui from './reducers/ui';
 import modal from './reducers/modal';
 import seccionSindical from './reducers/seccionSindical';
+import user from './reducers/user';
 
 export const store = configureStore({
     reducer: {
@@ -11,7 +12,8 @@ export const store = configureStore({
         auth:auth,
         area: area,
         modal: modal,
-        seccionSindical: seccionSindical
+        seccionSindical: seccionSindical,
+        user: user
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
         serializableCheck: {

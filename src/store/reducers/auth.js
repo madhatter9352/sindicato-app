@@ -13,7 +13,6 @@ export const login = createAsyncThunk(
             localStorage.setItem('access_token', data['access_token'])
             localStorage.setItem('refresh_token', data['refresh_token'])
             localStorage.setItem('user', JSON.stringify(data['user']))
-
             toast.success('Login correcto', {
                 theme: 'colored'
             });
@@ -66,8 +65,9 @@ const authSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(login.fulfilled, (state, action) => {
-            //window.location.href = '/'
-            history.push('/')
+            state.isAuthenticated = true;
+            state.user = action.payload.user
+            history.push('/');
         });
 
         builder.addCase(login.pending, (state, action) => {
@@ -86,7 +86,8 @@ const authSlice = createSlice({
             state.loading = 'idle';
             state.isAuthenticated = false
             state.user = null
-            window.location.href = '/'
+            //window.location.href = '/'
+            history.push('/login');
         });
 
         builder.addCase(logout.pending, (state, action) => {
@@ -99,7 +100,8 @@ const authSlice = createSlice({
             state.loading = 'idle';
             state.isAuthenticated = false
             state.user = null
-            window.location.href = '/'
+            //window.location.href = '/'
+            history.push('/login');
         });
 
         builder.addCase(register.fulfilled, (state, action) => {

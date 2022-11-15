@@ -8,8 +8,10 @@ const instance = axios.create({
 
 instance.interceptors.request.use(function (config) {
     console.log(config)
-    if (config.url.indexOf('login') === -1 && (config.url.indexOf('user') === -1 && config.method !== 'post')) {
-        console.log('token')
+    console.log(false && true)
+    if (config.url.indexOf('login') === -1 && config.url.indexOf('user') === -1) {
+        config.headers['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
+    } else if(config.url.indexOf('user') !== -1 && config.method !== 'post') {
         config.headers['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
     }
     return config;

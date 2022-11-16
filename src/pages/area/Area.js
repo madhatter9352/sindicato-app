@@ -107,10 +107,10 @@ export const Area = () => {
                             }}
                         >
                             <PaginationComponent 
-                                totalItems={pagination.count} 
+                                totalItems={pagination && pagination.count} 
                                 itemsPerPage={8}
-                                next = {pagination.next}
-                                previous = {pagination.previous} 
+                                next = {pagination && pagination.next}
+                                previous = {pagination && pagination.previous} 
                                 currPage={currPage} 
                                 setCurrentPage={setCurrentPage} 
                             />

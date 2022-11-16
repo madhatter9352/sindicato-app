@@ -1,33 +1,91 @@
-import React from 'react'
-import { setWindowClass } from '../../utils/helpers';
-import * as Yup from 'yup';
 import { useFormik } from 'formik';
-import { Link } from 'react-router-dom';
-import { Form, InputGroup } from 'react-bootstrap';
-import { Checkbox, Button } from 'semantic-ui-react';
+import React, { useEffect, useState } from 'react'
+import { Form, InputGroup, Modal } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { register } from '../../store/reducers/auth';
+import { toast } from 'react-toastify';
+import { Button, Loader } from 'semantic-ui-react';
+import * as Yup from 'yup';
+import { GetUserById } from '../../services/user';
+import { closeModal, setProps } from '../../store/reducers/modal';
+import { createUser, editUser } from '../../store/reducers/user';
 
-export const Register = () => {
+const initialState = {
+    first_name: '',
+    last_name: '',
+    username: '',
+    email: '',
+    password: '',
+    passwordRetype: ''
+}
+
+export const UserModal = ({id = null}) => {
     const dispatch = useDispatch();
-    const {error} = useSelector(state => state.auth)
+    const [loading, setLoading] = useState(false);
+    const [formValues, setFormValues] = useState(initialState);
+    const {error} = useSelector(state => state.user);
 
-    const handleRegister = async({values, setSubmitting}) => {
-            dispatch(register(values));
+    const handleCreate = async(values, setSubmitting) => {
+        setTimeout(async() => {
+            const resp = await dispatch(createUser(values));
+            if(!resp.error){
+                dispatch(closeModal());
+            }
+            setSubmitting(false);
+        }, 1000)
+    }
+    
+    const handleEdit = (values, setSubmitting) => {
+        setTimeout(async() => {
+            const resp = await dispatch(editUser({
+                id, 
+                values
+            }))
+            if(!resp.error){
+                dispatch(closeModal());
+            }
+            setSubmitting(false);
+        }, 500);
+    }
+
+    useEffect(() => {
+        if(id){
+            setLoading(true);
+
+            const getUser = async() => {
+                try {
+                    const user = await GetUserById(id);
+                    setFormValues({
+                        first_name: user.data.first_name,
+                        last_name: user.data.last_name,
+                        username: user.data.username,
+                        email: user.data.email,
+                        password: '',
+                        passwordRetype: ''
+                    });
+                    setLoading(false);
+                } catch (error) {
+                    toast.error(`${error.response.statusText}`, {
+                        theme: 'colored'
+                    });
+                    setLoading(false);
+                    dispatch(closeModal())
+                }
+            }
+
             setTimeout(() => {
-                setSubmitting(false);
-            }, 1000)
-    } 
+                getUser();
+            }, 500)
+        }
+    }, [id, dispatch])
 
     const {handleChange, values, handleSubmit, touched, errors, isSubmitting} = useFormik({
-        initialValues: {
-            first_name: '',
-            last_name: '',
-            username: '',
-            email: '',
-            password: '',
-            passwordRetype: '',
-            acceptTerms: false
+        initialValues: { 
+            first_name: formValues.first_name,
+            last_name: formValues.last_name,
+            username: formValues.username,
+            email: formValues.email,
+            password: formValues.password,
+            passwordRetype: formValues.passwordRetype
         },
         enableReinitialize: true,
         validationSchema: Yup.object({
@@ -58,38 +116,51 @@ export const Register = () => {
                                     [Yup.ref('password')],
                                     'Both password need to be the same'
                                     )
-                                }),
-            acceptTerms: Yup.bool().oneOf([true], 'You should accept the terms')                    
+                                })
         }),
         onSubmit: (values, {setSubmitting}) => {
-            delete values.acceptTerms;
-            handleRegister({values, setSubmitting})
+            if(id){
+                handleEdit(values, setSubmitting);    
+            } else {
+                handleCreate(values, setSubmitting);
+            }
         }
     });
-    
-    setWindowClass('hold-transition register-page');
-    
+
+    useEffect(() => {
+        dispatch(setProps({size: "md", 'aria-labelledby': "contained-modal-title-vcenter", centered: 'centered'}))
+    }, [dispatch]);
+
+    const handleCloseModal = () => {
+        dispatch(closeModal());
+    }
+
     return (
-        <div className="register-box">
-            <div className="card card-outline card-primary">
-                <div className="card-header text-center">
-                    <Link to="/" className="h1">
-                        <b>Sindicato</b>
-                        <span> App</span>
-                    </Link>
+        <>
+        {
+            loading 
+            ?
+                <div>
+                    <Loader active inline='centered' content='Loading usuario' />
                 </div>
-                <div className='card-body'>
-                    <p className="login-box-msg">Registra un nuevo usuario</p>
-                    {error && (
-                        <ul>
-                            {
-                                Object.keys(error).map((key, i) => {
-                                    return <li key={i} className='text-danger'>{error[key]}</li>
-                                })
-                            }
-                        </ul>
-                    )}
-                    <form onSubmit={handleSubmit}>
+            :
+            <>
+                <Modal.Header>
+                <Modal.Title id="contained-modal-title-vcenter">
+                    Registrar usuario
+                </Modal.Title>
+                </Modal.Header>
+                {error && (
+                    <ul>
+                        {
+                            Object.keys(error).map((key, i) => {
+                                return <li key={i} className='text-danger'>{error[key]}</li>
+                            })
+                        }
+                    </ul>
+                )}
+                <form onSubmit={handleSubmit}>
+                    <Modal.Body>                
                         <div className='mb-3'>
                             <InputGroup className="mb-3">
                                 <Form.Control
@@ -245,44 +316,24 @@ export const Register = () => {
                                 }
                             </InputGroup>
                         </div>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button
+                            content= 'Close'
+                            type='button'
+                            onClick={() => handleCloseModal()}
+                        />
 
-                        <div className='row'>
-                            <div className='col-8'>
-                                <InputGroup>
-                                    <Checkbox
-                                        id='acceptTerms' 
-                                        label='Acepto los terminos'
-                                        name="acceptTerms"
-                                        onChange={handleChange}
-                                        className={errors.acceptTerms && 'is-invalid'}
-                                    />
-                                    {
-                                        errors.acceptTerms && (
-                                            <Form.Control.Feedback type="invalid">
-                                                {errors.acceptTerms}
-                                            </Form.Control.Feedback>
-                                        )
-                                    }
-                                </InputGroup>
-                            </div>
-                            <div className='col-4'>
-                                <Button 
-                                    primary
-                                    type='submit'
-                                    loading={isSubmitting}
-                                    content='Registrar'
-                                />
-                            </div>
-                        </div>
-                    </form>
-
-                    <p className="mb-1">
-                        <Link to="/login">
-                            Ya tengo cuenta
-                        </Link>
-                    </p>
-                </div>
-            </div>
-        </div>
+                        <Button 
+                            content={id ? 'Actualizar': 'Crear'}
+                            type='submit'
+                            primary
+                            loading={isSubmitting}
+                        />
+                    </Modal.Footer>
+                </form>
+            </> 
+        }
+        </>
     )
 }

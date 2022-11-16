@@ -4,8 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { Button } from 'semantic-ui-react';
 import { PaginationComponent } from '../../components';
-import { ContentHeader } from '../../components/content-header/ContentHeader'
-import { Loading } from '../../components/loading/Loading';
+import { ContentHeader, Loading } from '../../components'
 import { openModal } from '../../store/reducers/modal';
 import { deleteSeccion, getSeccionesByPage } from '../../store/reducers/seccionSindical';
 import { formatDate } from '../../utils/helpers';
@@ -110,10 +109,10 @@ export const SeccionSindical = () => {
                         }}
                     >
                         <PaginationComponent 
-                            totalItems={pagination.count} 
+                            totalItems={pagination && pagination.count} 
                             itemsPerPage={8}
-                            next = {pagination.next}
-                            previous = {pagination.previous} 
+                            next = {pagination && pagination.next}
+                            previous = {pagination && pagination.previous} 
                             currPage={currPage} 
                             setCurrentPage={setCurrentPage} 
                         />

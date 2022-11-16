@@ -1,31 +1,37 @@
 import React, { useEffect, useState } from 'react'
 import { Table } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { toast } from 'react-toastify'
 import { Button } from 'semantic-ui-react'
-import { ContentHeader } from '../../components'
+import { ContentHeader, Loading, PaginationComponent } from '../../components'
 import { openModal } from '../../store/reducers/modal'
-import { getUsers } from '../../store/reducers/user'
-import { AddAreaModal } from '../area/AreaModal'
+import { deleteUser, getUsers } from '../../store/reducers/user'
+import { formatDate } from '../../utils/helpers'
+import { UserModal } from './UserModal'
 
 export const Usuario = () => {
     const dispatch = useDispatch();
-    const {users, loading, error, pagination} = useSelector(state => state.user);
+    const {users, loading, pagination} = useSelector(state => state.user);
     const [isDeleting, setIsDeleting] = useState(false);
     const [selected, setSelected] = useState(null);
     const [currPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
         dispatch(getUsers(currPage));
-    }, [dispatch, currPage])
+    }, [dispatch, currPage]);
 
-    if(loading === 'rejected' && error){
-        toast.error(`${error}`, {
-            theme: 'colored'
-        });
+    if(!['fulfilled', 'rejected'].includes(loading)){
+        return <Loading active inline='centered' content='Loading Usuarios...' />
+    }
+
+    const handleDelete = (id) => {
+        setSelected(id);
+        setIsDeleting(true);
+        setTimeout(() => {
+            dispatch(deleteUser(id));
+            setIsDeleting(false);
+        }, 1000);
     }
     
-
     return (
         <div>
             <ContentHeader title="Usuarios" />
@@ -39,7 +45,7 @@ export const Usuario = () => {
                                     primary
                                     content="Annadir"
                                     icon="plus"
-                                    onClick={() => dispatch(openModal(<AddAreaModal />))}
+                                    onClick={() => dispatch(openModal(<UserModal />))}
                                 />
                             </div>
                         </div>
@@ -57,31 +63,33 @@ export const Usuario = () => {
                                 </thead>
                                 <tbody>
                                     {
-                                        // areas && areas.map(area => (
-                                        //     <tr 
-                                        //         key={area.id}
-                                        //     >
-                                        //         <td>{area.id}</td>
-                                        //         <td>{area.name}</td>
-                                        //         <td>{formatDate(area.created)}</td>
-                                        //         <td>
-                                        //             <Button 
-                                        //                 color='red'
-                                        //                 icon='trash'
-                                        //                 content='Delete'
-                                        //                 loading={isDeleting && area.id === selected}
-                                        //                 onClick={() => handleDelete(area.id)}
-                                        //             />
+                                        users && users.map(user => (
+                                            <tr 
+                                                key={user.id}
+                                            >
+                                                <td>{user.id}</td>
+                                                <td>{`${user.first_name} ${user.last_name}`}</td>
+                                                <td>{user.username}</td>
+                                                <td>{user.email}</td>
+                                                <td>{formatDate(user.created)}</td>
+                                                <td>
+                                                    <Button 
+                                                        color='red'
+                                                        icon='trash'
+                                                        content='Delete'
+                                                        loading={isDeleting && user.id === selected}
+                                                        onClick={() => handleDelete(user.id)}
+                                                    />
 
-                                        //             <Button 
-                                        //                 color='yellow'
-                                        //                 icon='edit'
-                                        //                 content='Edit'
-                                        //                 onClick={() => dispatch(openModal(<AddAreaModal id={area.id} />))}
-                                        //             />
-                                        //         </td>
-                                        //     </tr>
-                                        // ))
+                                                    <Button 
+                                                        color='yellow'
+                                                        icon='edit'
+                                                        content='Edit'
+                                                        onClick={() => dispatch(openModal(<UserModal id={user.id} />))}
+                                                    />
+                                                </td>
+                                            </tr>
+                                        ))
                                     }
                                 </tbody>
                             </Table>
@@ -93,14 +101,14 @@ export const Usuario = () => {
                                 justifyContent: 'center',
                             }}
                         >
-                            {/* <PaginationComponent 
-                                totalItems={pagination.count} 
+                            <PaginationComponent 
+                                totalItems={pagination && pagination.count} 
                                 itemsPerPage={8}
-                                next = {pagination.next}
-                                previous = {pagination.previous} 
+                                next = {pagination && pagination.next}
+                                previous = {pagination && pagination.previous} 
                                 currPage={currPage} 
                                 setCurrentPage={setCurrentPage} 
-                            /> */}
+                            />
                         </div>
                     </div>
                 </div>

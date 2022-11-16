@@ -1,4 +1,5 @@
 import {Route, Routes } from 'react-router-dom';
+import { Donation } from './pages/donation/Donation';
 import { Area } from './pages/area/Area';
 import { Login } from './modules/login/Login';
 import { Home } from './modules/main/Home';
@@ -10,6 +11,7 @@ import { ModalContainer } from './components/modal/ModalContainer';
 import { SeccionSindical } from './pages/seccion-sindical/SeccionSindical';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+// import { clearDonotionState } from './store/reducers/donation';
 import { clearAreaState } from './store/reducers/area';
 import { ServerError } from './components/errors/ServerError';
 import { clearError } from './store/reducers/auth';
@@ -24,6 +26,7 @@ function App() {
 
   useEffect(() => {
     dispatch(clearAreaState());
+    // dispatch(clearDonotionState());
     dispatch(clearError());
   }, [dispatch]);
   
@@ -41,6 +44,7 @@ function App() {
         </Route>
         <Route path='/' element={<PrivateRoute />}>
           <Route path='/' element={<Home />}>
+              <Route path='/donation' element={<Donation />} />
               <Route path='/area' element={<Area />} />
               <Route path='/seccion-sindical' element={<SeccionSindical />} />
               <Route path='/usuario' element={<Usuario />} />

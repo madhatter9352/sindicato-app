@@ -18,6 +18,10 @@ export const MENU = [
         {
             name: 'Seccion Sindical',
             path: '/seccion-sindical'
+        },
+        {
+            name: 'Donacion',
+            path: '/donation'
         }
         ]
     }

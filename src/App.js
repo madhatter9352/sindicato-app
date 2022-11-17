@@ -9,6 +9,7 @@ import { PublicRoute } from './routes/PublicRoute';
 import { ToastContainer } from 'react-toastify';
 import { ModalContainer } from './components/modal/ModalContainer';
 import { SeccionSindical } from './pages/seccion-sindical/SeccionSindical';
+import { Initial_state } from './pages/initial_state/Initial_state';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 // import { clearDonotionState } from './store/reducers/donation';
@@ -47,6 +48,7 @@ function App() {
               <Route path='/donation' element={<Donation />} />
               <Route path='/area' element={<Area />} />
               <Route path='/seccion-sindical' element={<SeccionSindical />} />
+              <Route path='/initial_state' element={<Initial_state />} />
               <Route path='/usuario' element={<Usuario />} />
           </Route>
         </Route>

@@ -20,8 +20,12 @@ export const MENU = [
             path: '/seccion-sindical'
         },
         {
-            name: 'Donacion',
+            name: 'Donación',
             path: '/donation'
+        },
+        {
+            name: 'Estado Inicial',
+            path: '/initial_state'
         }
         ]
     }

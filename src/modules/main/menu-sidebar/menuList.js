@@ -26,6 +26,10 @@ export const MENU = [
         {
             name: 'Estado Inicial',
             path: '/initial_state'
+        },
+        {
+            name: 'Afiliados',
+            path: '/affiliate'
         }
         ]
     }

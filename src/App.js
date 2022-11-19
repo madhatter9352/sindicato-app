@@ -10,6 +10,7 @@ import { ToastContainer } from 'react-toastify';
 import { ModalContainer } from './components/modal/ModalContainer';
 import { SeccionSindical } from './pages/seccion-sindical/SeccionSindical';
 import { Initial_state } from './pages/initial_state/Initial_state';
+import { Affiliate } from './pages/affiliate/Affiliate';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 // import { clearDonotionState } from './store/reducers/donation';
@@ -49,6 +50,7 @@ function App() {
               <Route path='/area' element={<Area />} />
               <Route path='/seccion-sindical' element={<SeccionSindical />} />
               <Route path='/initial_state' element={<Initial_state />} />
+              <Route path='/affiliate' element={<Affiliate />} />
               <Route path='/usuario' element={<Usuario />} />
           </Route>
         </Route>

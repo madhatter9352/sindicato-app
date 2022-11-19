@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import area from './reducers/area';
 import donation from './reducers/donation';
+import affiliate from './reducers/affiliate';
 import initial_state from './reducers/initial_state';
 import auth from './reducers/auth';
 import ui from './reducers/ui';
@@ -13,6 +14,7 @@ export const store = configureStore({
         auth:auth,
         area: area,
         donation,
+        affiliate,
         initial_state,
         modal: modal,
         seccionSindical: seccionSindical

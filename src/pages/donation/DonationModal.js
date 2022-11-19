@@ -71,12 +71,6 @@ export const DonationModal = ({id = null}) => {
         }
     });
 
-    // useEffect(() => {
-    //     GetAreas().then((resp) => {
-    //         setAreas(resp.results);
-    //     })
-    // }, []);
-
     useEffect(() => {
         setLoading(true);
         const getareas = async() => {

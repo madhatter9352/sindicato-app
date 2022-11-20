@@ -17,7 +17,7 @@ import "react-datepicker/dist/react-datepicker.css";
 const initialState = {
     name: '',
     high_date: '',
-    low_date: '',
+    low_date: null,
     initial_state: '',
     salary: 0,
     monthly_quota: 0,
@@ -83,8 +83,7 @@ export const AffiliateModal = ({id = null}) => {
             annual_quota: Yup.number().required('Este campo es requerido').min(1, 'Este campo debe ser mayor a 0'),
             contribution_commitment: Yup.number().required('Este campo es requerido').min(1, 'Este campo debe ser mayor a 0'),
             month_contribution: Yup.number().required('Este campo es requerido').min(1, 'Este campo debe ser mayor a 0'),
-            high_date: Yup.date().required('Este campo es requerido'),
-            low_date: Yup.date()
+            high_date: Yup.date().required('Este campo es requerido')
         }),
         onSubmit: (values) => {
             if(id){

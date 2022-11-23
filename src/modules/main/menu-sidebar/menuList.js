@@ -30,6 +30,10 @@ export const MENU = [
         {
             name: 'Afiliados',
             path: '/affiliate'
+        },
+        {
+            name: 'Unión sección',
+            path: '/section_union'
         }
         ]
     }

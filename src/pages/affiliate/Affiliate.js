@@ -43,12 +43,12 @@ export const Affiliate = () => {
 
     return (
         <div>
-            <ContentHeader title="Affiliate" />
+            <ContentHeader title="Afiliado" />
             <section className="content">
                 <div className="container-fluid">
                     <div className="card">
                         <div className="card-header">
-                            <h3 className="card-title">Mantenimiento de Afiliados</h3>
+                            <h3 className="card-title">Gestión de afiliados</h3>
                             <div className="card-tools">
                                 <Button 
                                     primary

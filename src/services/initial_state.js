@@ -36,9 +36,9 @@ export const GetInitial_stateById = async(id) => {
     }
 }
 
-export const EditInitial_state = async(id, total_number_workers, total_number_affiliates, gross_potential, net_potential, accumulated_ten_percent, fully_committed, amount, year) => {
+export const EditInitial_state = async(id, total_number_workers, total_number_affiliates, gross_potential, net_potential, accumulated_ten_percent, fully_committed, amount, year, name) => {
     try {
-        const initial_state = await instance.put(`/initial-state/${id}/`, {id, total_number_workers, total_number_affiliates, gross_potential, net_potential, accumulated_ten_percent, fully_committed, amount, year});
+        const initial_state = await instance.put(`/initial-state/${id}/`, {id, total_number_workers, total_number_affiliates, gross_potential, net_potential, accumulated_ten_percent, fully_committed, amount, year, name});
         return initial_state;
     } catch (error) {
         throw error;

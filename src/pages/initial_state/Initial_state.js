@@ -64,6 +64,7 @@ export const Initial_state = () => {
                                 <thead>
                                     <tr>
                                         <th>Id</th>
+                                        <th>Alias</th>
                                         <th>Total trabajadores</th>
                                         <th>Total afiliados</th>
                                         <th>Potencial bruto</th>
@@ -81,6 +82,7 @@ export const Initial_state = () => {
                                                 key={initial_state.id}
                                             >
                                                 <td>{initial_state.id}</td>
+                                                <td>{initial_state.name}</td>
                                                 <td>{initial_state.total_number_workers}</td>
                                                 <td>{initial_state.total_number_affiliates}</td>
                                                 <td>{initial_state.gross_potential}</td>

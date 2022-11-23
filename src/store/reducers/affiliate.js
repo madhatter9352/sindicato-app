@@ -41,9 +41,9 @@ export const deleteAffiliate = createAsyncThunk(
 
 export const editAffiliate = createAsyncThunk(
     'editAffiliate',
-    async({id, name, high_date, low_date, initial_state, salary, monthly_quota, annual_quota, contribution_commitment, month_contribution }, {rejectWithValue}) => {
+    async({id, name, high_date, low_date, initial_state_id, salary, monthly_quota, annual_quota, contribution_commitment, month_contribution }, {rejectWithValue}) => {
         try {
-            const affiliate = await EditAffiliate(id, name, high_date, low_date, initial_state, salary, monthly_quota, annual_quota, contribution_commitment, month_contribution)
+            const affiliate = await EditAffiliate(id, name, high_date, low_date, initial_state_id, salary, monthly_quota, annual_quota, contribution_commitment, month_contribution)
             return affiliate.data;
         } catch (error) {
             console.log(error.response.statusText)

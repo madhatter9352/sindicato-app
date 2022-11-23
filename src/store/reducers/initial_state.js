@@ -42,9 +42,9 @@ export const deleteInitial_state = createAsyncThunk(
 
 export const editInitial_state = createAsyncThunk(
     'editInitial_state',
-    async({id, total_number_workers, total_number_affiliates, gross_potential, net_potential, accumulated_ten_percent, fully_committed, amount, year}, {rejectWithValue}) => {
+    async({id, total_number_workers, total_number_affiliates, gross_potential, net_potential, accumulated_ten_percent, fully_committed, amount, year, name}, {rejectWithValue}) => {
         try {
-            const initial_state = await EditInitial_state(id, total_number_workers, total_number_affiliates, gross_potential, net_potential, accumulated_ten_percent, fully_committed, amount, year)
+            const initial_state = await EditInitial_state(id, total_number_workers, total_number_affiliates, gross_potential, net_potential, accumulated_ten_percent, fully_committed, amount, year, name)
             return initial_state.data;
         } catch (error) {
             console.log(error.response.statusText)

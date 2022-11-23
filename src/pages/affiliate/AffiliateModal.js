@@ -17,13 +17,13 @@ import "react-datepicker/dist/react-datepicker.css";
 const initialState = {
     name: '',
     high_date: '',
-    low_date: null,
-    initial_state: '',
-    salary: 0,
-    monthly_quota: 0,
-    annual_quota: 0,
-    contribution_commitment: 0,
-    month_contribution: 0
+    low_date: '',
+    initial_state_id: '',
+    salary: '',
+    monthly_quota: '',
+    annual_quota: '',
+    contribution_commitment: '',
+    month_contribution: ''
 }
 
 export const AffiliateModal = ({id = null}) => {
@@ -47,7 +47,7 @@ export const AffiliateModal = ({id = null}) => {
                 name: values.name,
                 high_date: values.high_date,
                 low_date: values.low_date,
-                initial_state: values.initial_state,
+                initial_state_id: values.initial_state_id,
                 salary: values.salary,
                 monthly_quota: values.monthly_quota,
                 annual_quota: values.annual_quota,
@@ -64,7 +64,7 @@ export const AffiliateModal = ({id = null}) => {
             name: formValues.name,
             high_date: formValues.high_date,
             low_date: formValues.low_date,
-            initial_state: formValues.initial_state,
+            initial_state_id: formValues.initial_state_id,
             salary: formValues.salary,
             monthly_quota: formValues.monthly_quota,
             annual_quota: formValues.annual_quota,
@@ -78,7 +78,7 @@ export const AffiliateModal = ({id = null}) => {
                 .max(30, 'Debe tener menos de 30 caracteres')
                 .required('Este campo es requerido'),
             salary: Yup.number().required('Este campo es requerido').min(1, 'Este campo debe ser mayor a 0'),
-            initial_state: Yup.number().required('Este campo es requerido'),
+            initial_state_id: Yup.number().required('Este campo es requerido'),
             monthly_quota: Yup.number().required('Este campo es requerido').min(1, 'Este campo debe ser mayor a 0'),
             annual_quota: Yup.number().required('Este campo es requerido').min(1, 'Este campo debe ser mayor a 0'),
             contribution_commitment: Yup.number().required('Este campo es requerido').min(1, 'Este campo debe ser mayor a 0'),
@@ -112,7 +112,7 @@ export const AffiliateModal = ({id = null}) => {
                         name: affiliate.data.name,
                         high_date: affiliate.data.high_date,
                         low_date: affiliate.data.low_date,
-                        initial_state: affiliate.data.initial_state,
+                        initial_state_id: affiliate.data.initial_state_id,
                         salary: affiliate.data.salary,
                         monthly_quota: affiliate.data.monthly_quota,
                         annual_quota: affiliate.data.annual_quota,
@@ -330,25 +330,25 @@ export const AffiliateModal = ({id = null}) => {
                                 <div className='mb-3'>
                                     <InputGroup>
                                         <Form.Control
-                                            id="initial_state"
-                                            name="initial_state"
+                                            id="initial_state_id"
+                                            name="initial_state_id"
                                             as={"select"}
                                             onChange={handleChange}
-                                            value={values.initial_state}
-                                            isValid={touched.initial_state && !errors.initial_state}
-                                            isInvalid={touched.initial_state && !!errors.initial_state}
+                                            value={values.initial_state_id}
+                                            isValid={touched.initial_state_id && !errors.initial_state_id}
+                                            isInvalid={touched.initial_state_id && !!errors.initial_state_id}
                                         >
                                             <option>Seleccione un estado inicial...</option>
                                             {
                                                 initial_states && initial_states.map((state)=> (
-                                                    <option key={state.id} value={state.id}>{state.total_number_workers}</option>
+                                                    <option key={state.id} value={state.id}>{state.name}</option>
                                                 ))
                                             }
                                         </Form.Control>
                                         {
-                                            touched.initial_state && errors.initial_state ? (
+                                            touched.initial_state_id && errors.initial_state_id ? (
                                                 <Form.Control.Feedback type="invalid">
-                                                    {errors.initial_state}
+                                                    {errors.initial_state_id}
                                                 </Form.Control.Feedback>
                                             ) : ''
                                         }

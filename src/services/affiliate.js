@@ -9,9 +9,11 @@ export const GetAffiliates = async() => {
     }
 }
 
-export const CreateAffiliate = async(name) => {
+export const CreateAffiliate = async(values) => {
+    console.log(values)
+    console.log("values")
     try {
-        const affiliate = await instance.post('/affiliate/', name);
+        const affiliate = await instance.post('/affiliate/', values);
         return affiliate;
     } catch (error) {
         throw error;
@@ -36,9 +38,9 @@ export const GetAffiliateById = async(id) => {
     }
 }
 
-export const EditAffiliate = async(id, name, high_date, low_date, initial_state, salary, monthly_quota, annual_quota, contribution_commitment, month_contribution) => {
+export const EditAffiliate = async(id, name, high_date, low_date, initial_state_id, salary, monthly_quota, annual_quota, contribution_commitment, month_contribution) => {
     try {
-        const affiliate = await instance.put(`/affiliate/${id}/`, {name, high_date, low_date, initial_state, salary, monthly_quota, annual_quota, contribution_commitment, month_contribution});
+        const affiliate = await instance.put(`/affiliate/${id}/`, {name, high_date, low_date, initial_state_id, salary, monthly_quota, annual_quota, contribution_commitment, month_contribution});
         return affiliate;
     } catch (error) {
         throw error;

@@ -14,13 +14,14 @@ import "react-datepicker/dist/react-datepicker.css";
 
 
 const initialState = {
-    total_number_workers: 0,
-    total_number_affiliates: 0,
-    gross_potential: 0,
-    net_potential: 0,
-    accumulated_ten_percent: 0,
-    fully_committed: 0,
-    amount : 0,
+    total_number_workers: '',
+    total_number_affiliates: '',
+    gross_potential: '',
+    net_potential: '',
+    accumulated_ten_percent: '',
+    fully_committed: '',
+    amount : '',
+    name: '',
     year: moment().year(),
 }
 
@@ -49,6 +50,7 @@ export const Initial_stateModal = ({id = null}) => {
                 accumulated_ten_percent: values.accumulated_ten_percent,
                 fully_committed: values.fully_committed,
                 amount: values.amount,
+                name: values.name,
                 year: values.year
             }));
 
@@ -65,6 +67,7 @@ export const Initial_stateModal = ({id = null}) => {
             accumulated_ten_percent: formValues.accumulated_ten_percent,
             fully_committed: formValues.fully_committed,
             amount: formValues.amount,
+            name: formValues.name,
             year: formValues.year
         },
         enableReinitialize: true,
@@ -77,6 +80,7 @@ export const Initial_stateModal = ({id = null}) => {
             fully_committed: Yup.number().required('Este campo es requerido').integer("Este campo debe ser un entero").min(1, 'Este campo debe ser mayor a 0'),
             amount: Yup.number().required('Este campo es requerido').min(1, 'Este campo debe ser mayor a 0'),
             year: Yup.number().required('Este campo es requerido').integer("Este campo debe ser un entero").min(2000, 'Este campo debe ser mayor a 2000'),
+            name: Yup.string().required('Este campo es requerido'),
         }),
         onSubmit: (values) => {
             if(id){
@@ -102,6 +106,7 @@ export const Initial_stateModal = ({id = null}) => {
                         accumulated_ten_percent: initial_state.data.accumulated_ten_percent,
                         fully_committed: initial_state.data.fully_committed,
                         amount: initial_state.data.amount,
+                        name: initial_state.data.name,
                         year: initial_state.data.year
                     });
                     setLoading(false);
@@ -147,6 +152,29 @@ export const Initial_stateModal = ({id = null}) => {
                         </Modal.Header>
                         <form onSubmit={handleSubmit}>
                             <Modal.Body>
+
+                                <div className='mb-3'>
+                                    <InputGroup>
+                                        <Form.Control
+                                            id="name"
+                                            name="name"
+                                            type="text"
+                                            placeholder="Alias"
+                                            onChange={handleChange}
+                                            value={values.name}
+                                            isValid={touched.name && !errors.name}
+                                            isInvalid={touched.name && !!errors.name}
+                                        />
+                                        {
+                                            touched.name && errors.name ? (
+                                                <Form.Control.Feedback type="invalid">
+                                                    {errors.name}
+                                                </Form.Control.Feedback>
+                                            ) : ''
+                                        }
+                                    </InputGroup>
+                                </div>
+
                                 <div className='mb-3'>
                                     <InputGroup>
                                         <Form.Control

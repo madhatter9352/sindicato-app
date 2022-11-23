@@ -18,6 +18,22 @@ export const MENU = [
         {
             name: 'Seccion Sindical',
             path: '/seccion-sindical'
+        },
+        {
+            name: 'Donación',
+            path: '/donation'
+        },
+        {
+            name: 'Estado Inicial',
+            path: '/initial_state'
+        },
+        {
+            name: 'Afiliados',
+            path: '/affiliate'
+        },
+        {
+            name: 'Unión sección',
+            path: '/section_union'
         }
         ]
     }

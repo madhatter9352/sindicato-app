@@ -11,7 +11,7 @@ import PizZip from "pizzip";
 import PizZipUtils from "pizzip/utils/index.js";
 import Docxtemplater from "docxtemplater";
 import { saveAs } from "file-saver";
-import { DeleteActa, GetAcuerdosByActaId, GetDocumentosByActa, GetPlanteamientosByActa, GetPuntosByActa } from '../../services/acta'
+import {GetAcuerdosByActaId, GetDocumentosByActa, GetPlanteamientosByActa, GetPuntosByActa } from '../../services/acta'
 
 
 function loadFile(url, callback) {

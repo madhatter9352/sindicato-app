@@ -41,9 +41,9 @@ export const deleteDonation = createAsyncThunk(
 
 export const editDonation = createAsyncThunk(
     'editDonation',
-    async({id, name, area, date}, {rejectWithValue}) => {
+    async({id, name, area_id, date}, {rejectWithValue}) => {
         try {
-            const donation = await EditDonation(id, name, area, date)
+            const donation = await EditDonation(id, name, area_id, date)
             return donation.data;
         } catch (error) {
             return rejectWithValue(error.response.statusText);

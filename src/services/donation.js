@@ -36,9 +36,9 @@ export const GetDonationById = async(id) => {
     }
 }
 
-export const EditDonation = async(id, name, area, date) => {
+export const EditDonation = async(id, name, area_id, date) => {
     try {
-        const donation = await instance.put(`/donation/${id}/`, {name, area, date});
+        const donation = await instance.put(`/donation/${id}/`, {name, area_id, date});
         return donation;
     } catch (error) {
         throw error;

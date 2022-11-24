@@ -16,7 +16,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const initialState = {
     name: '',
-    area: '',
+    area_id: '',
     date: '',
 }
 
@@ -39,7 +39,7 @@ export const DonationModal = ({id = null}) => {
             dispatch(editDonation({
                 id,
                 name: values.name,
-                area: values.area,
+                area_id: values.area_id,
                 date: values.date
             }));
 
@@ -50,7 +50,7 @@ export const DonationModal = ({id = null}) => {
     const {handleChange, values, handleSubmit, touched, errors, isSubmitting} = useFormik({
         initialValues: {
             name: formValues.name,
-            area: formValues.area,
+            area_id: formValues.area_id,
             date: formValues.date
         },
         enableReinitialize: true,
@@ -59,7 +59,7 @@ export const DonationModal = ({id = null}) => {
                 .min(3, 'Must be 3 characters or more')
                 .max(30, 'Must be 30 characters or less')
                 .required('Este campo es requerido'),
-            area: Yup.number().required('Este campo es requerido'),
+            area_id: Yup.number().required('Este campo es requerido'),
             date: Yup.date().required('Este campo es requerido')
         }),
         onSubmit: (values) => {
@@ -87,7 +87,7 @@ export const DonationModal = ({id = null}) => {
                     const donation = await GetDonationById(id);
                     setFormValues({
                         name: donation.data.name,
-                        area: (donation.data.area.id !== undefined) ? donation.data.area.id : donation.data.area,
+                        area_id: (donation.data.area.id !== undefined) ? donation.data.area.id : donation.data.area,
                         date: today
                     });
                     setLoading(false);
@@ -159,13 +159,13 @@ export const DonationModal = ({id = null}) => {
                                 <div className='mb-3'>
                                     <InputGroup>
                                         <Form.Control
-                                            id="area"
-                                            name="area"
+                                            id="area_id"
+                                            name="area_id"
                                             as={"select"}
                                             onChange={handleChange}
-                                            value={values.area}
-                                            isValid={touched.area && !errors.area}
-                                            isInvalid={touched.area && !!errors.area}
+                                            value={values.area_id}
+                                            isValid={touched.area_id && !errors.area_id}
+                                            isInvalid={touched.area_id && !!errors.area_id}
                                         >
                                             <option>Seleccione un area...</option>
                                             {
@@ -175,9 +175,9 @@ export const DonationModal = ({id = null}) => {
                                             }
                                         </Form.Control>
                                         {
-                                            touched.area && errors.area ? (
+                                            touched.area_id && errors.area_id ? (
                                                 <Form.Control.Feedback type="invalid">
-                                                    {errors.area}
+                                                    {errors.area_id}
                                                 </Form.Control.Feedback>
                                             ) : ''
                                         }

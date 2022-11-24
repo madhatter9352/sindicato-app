@@ -206,7 +206,7 @@ export const Union_sectionModal = ({id = null}) => {
                                             <option>Seleccione un estado inicial...</option>
                                             {
                                                 initial_states && initial_states.map((state)=> (
-                                                    <option key={state.id} value={state.id}>{state.total_number_workers}</option>
+                                                    <option key={state.id} value={state.id}>{state.name}</option>
                                                 ))
                                             }
                                         </Form.Control>

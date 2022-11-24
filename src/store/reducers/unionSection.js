@@ -46,7 +46,6 @@ export const editUnion_section = createAsyncThunk(
             const union_section = await EditUnion_section(id, name, area, initial_state)
             return union_section.data;
         } catch (error) {
-            console.log(error.response.statusText)
             return rejectWithValue(error.response.statusText);
         }
     }
@@ -57,10 +56,8 @@ export const getUnion_sectionsByPage = createAsyncThunk(
     async(page, {rejectWithValue}) => {
         try {
             const union_section = await GetUnion_sectionsByPage(page)
-            console.log(union_section);
             return union_section.data;
         } catch (error) {
-            console.log(error.response.statusText)
             return rejectWithValue(error.response.statusText);
         }
     }
@@ -141,7 +138,6 @@ const union_sectionSlice = createSlice({
         });
 
         builder.addCase(getUnion_sectionsByPage.fulfilled, (state, action) => {
-            console.log(action)
             state.union_sections = action.payload.results;
             state.loading = action.meta.requestStatus;
             state.pagination = {

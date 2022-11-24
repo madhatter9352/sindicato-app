@@ -46,7 +46,6 @@ export const editDonation = createAsyncThunk(
             const donation = await EditDonation(id, name, area, date)
             return donation.data;
         } catch (error) {
-            console.log(error.response.statusText)
             return rejectWithValue(error.response.statusText);
         }
     }
@@ -57,10 +56,8 @@ export const getDonationsByPage = createAsyncThunk(
     async(page, {rejectWithValue}) => {
         try {
             const donation = await GetDonationsByPage(page)
-            console.log(donation);
             return donation.data;
         } catch (error) {
-            console.log(error.response.statusText)
             return rejectWithValue(error.response.statusText);
         }
     }
@@ -141,7 +138,6 @@ const donationSlice = createSlice({
         });
 
         builder.addCase(getDonationsByPage.fulfilled, (state, action) => {
-            console.log(action)
             state.donations = action.payload.results;
             state.loading = action.meta.requestStatus;
             state.pagination = {

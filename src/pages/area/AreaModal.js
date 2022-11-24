@@ -84,7 +84,6 @@ export const AddAreaModal = ({id = null}) => {
         }
     });
 
-    console.log(values)
 
     useEffect(() => {
         dispatch(setProps({size: "md", 'aria-labelledby': "contained-modal-title-vcenter", centered: 'centered'}))

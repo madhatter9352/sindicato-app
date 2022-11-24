@@ -112,7 +112,7 @@ export const AffiliateModal = ({id = null}) => {
                         name: affiliate.data.name,
                         high_date: affiliate.data.high_date,
                         low_date: affiliate.data.low_date,
-                        initial_state_id: affiliate.data.initial_state_id,
+                        initial_state_id: affiliate.data.initial_state.id,
                         salary: affiliate.data.salary,
                         monthly_quota: affiliate.data.monthly_quota,
                         annual_quota: affiliate.data.annual_quota,

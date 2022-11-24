@@ -44,10 +44,8 @@ export const editArea = createAsyncThunk(
     async({id, name}, {rejectWithValue}) => {
         try {
             const area = await EditArea(id, name)
-            console.log(area);
             return area.data;
         } catch (error) {
-            console.log(error.response.statusText)
             return rejectWithValue(error.response.statusText);
         }
     }
@@ -58,10 +56,8 @@ export const getAreasByPage = createAsyncThunk(
     async(page, {rejectWithValue}) => {
         try {
             const area = await GetAreasByPage(page)
-            console.log(area);
             return area.data;
         } catch (error) {
-            console.log(error.response.statusText)
             return rejectWithValue(error.response.statusText);
         }
     }
@@ -142,7 +138,6 @@ const areaSlice = createSlice({
         });
 
         builder.addCase(getAreasByPage.fulfilled, (state, action) => {
-            console.log(action)
             state.areas = action.payload.results;
             state.loading = action.meta.requestStatus;
             state.pagination = {

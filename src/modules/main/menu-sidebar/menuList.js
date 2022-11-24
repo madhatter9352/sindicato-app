@@ -34,6 +34,10 @@ export const MENU = [
         {
             name: 'Unión sección',
             path: '/section_union'
+        },
+        {
+            name: 'Depósito de contribución',
+            path: '/contribution_deposit'
         }
         ]
     }

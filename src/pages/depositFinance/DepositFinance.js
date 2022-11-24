@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { Button } from 'semantic-ui-react';
+import { Button, Icon } from 'semantic-ui-react';
 import { PaginationComponent, Loading, ContentHeader } from '../../components';
 import { deleteDepositFinance, getDepositFinancesByPage } from '../../store/reducers/depositFinance';
 import { openModal } from '../../store/reducers/modal';
@@ -108,20 +108,31 @@ export const DepositFinance = () => {
                                                 <td>{depositFinance.reduction}</td>
                                                 <td>{depositFinance.total_balance}</td>
                                                 <td>
-                                                    <Button
-                                                        color='red'
-                                                        icon='trash'
-                                                        circular='true'
-                                                        loading={isDeleting && depositFinance.id === selected}
-                                                        onClick={() => handleDelete(depositFinance.id)}
-                                                    />
-
-                                                    <Button
-                                                        color='yellow'
-                                                        icon='edit'
-                                                        circular='true'
-                                                        onClick={() => dispatch(openModal(<DepositFinanceModal id={depositFinance.id} />))}
-                                                    />
+                                                    {/*<Button*/}
+                                                    {/*    color='red'*/}
+                                                    {/*    icon='trash'*/}
+                                                    {/*    circular='true'*/}
+                                                    {/*    loading={isDeleting && depositFinance.id === selected}*/}
+                                                    {/*    onClick={() => handleDelete(depositFinance.id)}*/}
+                                                    {/*/>*/}
+                                                    <Button animated='vertical' color='red' circular='true'     loading={isDeleting && depositFinance.id === selected}
+                                                            onClick={() => handleDelete(depositFinance.id)}>
+                                                        <Button.Content hidden>Eliminar</Button.Content>
+                                                        <Button.Content visible>
+                                                            <Icon name='trash' />
+                                                        </Button.Content>
+                                                    </Button><Button animated='vertical' color='yellow' circular='true' onClick={() => dispatch(openModal(<DepositFinanceModal id={depositFinance.id} />))} >
+                                                        <Button.Content hidden>Editar</Button.Content>
+                                                        <Button.Content visible>
+                                                            <Icon name='edit' />
+                                                        </Button.Content>
+                                                    </Button>
+                                                    {/*<Button*/}
+                                                    {/*    color='yellow'*/}
+                                                    {/*    icon='edit'*/}
+                                                    {/*    circular='true'*/}
+                                                    {/*    onClick={() => dispatch(openModal(<DepositFinanceModal id={depositFinance.id} />))}*/}
+                                                    {/*/>*/}
                                                 </td>
                                             </tr>
                                         ))

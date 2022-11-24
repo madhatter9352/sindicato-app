@@ -187,7 +187,7 @@ export const ContributionDepositModal = ({id = null}) => {
                                         <Form.Control
                                             id="total_number_workers"
                                             name="total_number_workers"
-                                            type="text"
+                                            type="number"
                                             placeholder="Total de trabajadores"
                                             onChange={handleChange}
                                             value={values.total_number_workers}

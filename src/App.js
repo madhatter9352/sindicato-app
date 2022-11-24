@@ -10,6 +10,7 @@ import { ToastContainer } from 'react-toastify';
 import { ModalContainer } from './components/modal/ModalContainer';
 import { SeccionSindical } from './pages/seccion-sindical/SeccionSindical';
 import { ContributionDeposit } from './pages/contributionDeposit/contributionDeposit';
+import { DepositFinance } from './pages/depositFinance/DepositFinance';
 import { Union_section } from './pages/union_section/UnionSection';
 import { Initial_state } from './pages/initial_state/Initial_state';
 import { Affiliate } from './pages/affiliate/Affiliate';
@@ -53,6 +54,7 @@ function App() {
               <Route path='/initial_state' element={<Initial_state />} />
               <Route path='/section_union' element={<Union_section />} />
               <Route path='/contribution_deposit' element={<ContributionDeposit />} />
+              <Route path='/finanzas' element={<DepositFinance />} />
               <Route path='/affiliate' element={<Affiliate />} />
               <Route path='/usuario' element={<Usuario />} />
           </Route>

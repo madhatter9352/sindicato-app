@@ -4,6 +4,10 @@ export const MENU = [
         path: '/'
     },
     {
+        name: 'Actas',
+        path: '/acta'
+    },
+    {
         name: 'Configuracion',
         children: [
         {

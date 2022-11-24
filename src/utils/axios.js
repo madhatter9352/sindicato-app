@@ -38,12 +38,14 @@ instance.interceptors.response.use(async response => {
     console.log(error)
     if (error.response.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
-        const access = await refreshAccessToken();
-        originalRequest.headers['Authorization'] = 'Bearer ' + access
-        return instance(originalRequest);
+        // const access = await refreshAccessToken();
+        // originalRequest.headers['Authorization'] = 'Bearer ' + access
+        // return instance(originalRequest);
+        localStorage.clear()
+        history.push('/login')
     } else if (error.response.status === 401 && originalRequest._retry) {
         localStorage.clear()
-        //window.location.href = '/'
+        window.location.href = '/'
     }
     return Promise.reject(error);
 })

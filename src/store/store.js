@@ -9,6 +9,7 @@ import ui from './reducers/ui';
 import modal from './reducers/modal';
 import seccionSindical from './reducers/seccionSindical';
 import user from './reducers/user';
+import acta from './reducers/acta';
 
 export const store = configureStore({
     reducer: {
@@ -21,12 +22,13 @@ export const store = configureStore({
         union_section: UnionSection,
         modal: modal,
         seccionSindical: seccionSindical,
-        user: user
+        user: user,
+        acta: acta
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
         serializableCheck: {
             ignoreActions: ['getAreas/rejected'],
-            ignoredPaths: ['modal.body.type', 'modal.body.$$typeof']
+            ignoredPaths: ['modal.body.type', 'modal.body.$$typeof', 'modal.body.props.handleAddAcuerdos', 'modal.body.props.handleAddDocument', 'modal.body.props.handleAddPlanteamiento']
         }
     })
 });

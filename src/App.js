@@ -21,6 +21,10 @@ import { clearError } from './store/reducers/auth';
 import { createBrowserHistory } from 'history';
 import {unstable_HistoryRouter as HistoryRouter} from 'react-router-dom';
 import { Usuario } from './pages/usuario/Usuario';
+import { Acta } from './pages/acta/Acta';
+import { ActaForm } from './pages/acta/ActaForm';
+import { ActaFormStep2 } from './pages/acta/ActaFormStep2';
+import { ActFormStep3 } from './pages/acta/ActFormStep3';
 
 export const history = createBrowserHistory();
 
@@ -54,6 +58,10 @@ function App() {
               <Route path='/section_union' element={<Union_section />} />
               <Route path='/affiliate' element={<Affiliate />} />
               <Route path='/usuario' element={<Usuario />} />
+              <Route path='/acta' element={<Acta />} />
+              <Route path='/create-acta' element={<ActaForm />} />
+              <Route path='/acta-step2/:actId' element={<ActaFormStep2 />} />
+              <Route path='/acta-step3/:actId' element={<ActFormStep3 />} />
           </Route>
         </Route>
       </Routes>

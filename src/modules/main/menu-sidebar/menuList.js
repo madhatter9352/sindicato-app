@@ -21,7 +21,7 @@ export const MENU = [
         },
         {
             name: 'Seccion Sindical',
-            path: '/seccion-sindical'
+            path: '/section_union'
         },
         {
             name: 'Donación',
@@ -35,9 +35,17 @@ export const MENU = [
             name: 'Afiliados',
             path: '/affiliate'
         },
+        // {
+        //     name: 'Unión sección',
+        //     path: '/section_union'
+        // },
         {
-            name: 'Unión sección',
-            path: '/section_union'
+            name: 'Depósito de contribución',
+            path: '/contribution_deposit'
+        },
+        {
+            name: 'Finanzas',
+            path: '/finanzas'
         }
         ]
     }

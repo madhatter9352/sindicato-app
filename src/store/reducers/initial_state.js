@@ -47,7 +47,6 @@ export const editInitial_state = createAsyncThunk(
             const initial_state = await EditInitial_state(id, total_number_workers, total_number_affiliates, gross_potential, net_potential, accumulated_ten_percent, fully_committed, amount, year, name)
             return initial_state.data;
         } catch (error) {
-            console.log(error.response.statusText)
             return rejectWithValue(error.response.statusText);
         }
     }
@@ -58,10 +57,8 @@ export const getInitial_statesByPage = createAsyncThunk(
     async(page, {rejectWithValue}) => {
         try {
             const initial_state = await GetInitial_statesByPage(page)
-            console.log(initial_state);
             return initial_state.data;
         } catch (error) {
-            console.log(error.response.statusText)
             return rejectWithValue(error.response.statusText);
         }
     }
@@ -142,7 +139,6 @@ const initial_stateSlice = createSlice({
         });
 
         builder.addCase(getInitial_statesByPage.fulfilled, (state, action) => {
-            console.log(action)
             state.initial_states = action.payload.results;
             state.loading = action.meta.requestStatus;
             state.pagination = {

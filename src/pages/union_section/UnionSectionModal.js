@@ -116,7 +116,7 @@ export const Union_sectionModal = ({id = null}) => {
     }, [dispatch, id]);
 
     useEffect(() => {
-        dispatch(setProps({size: "xl", 'aria-labelledby': "contained-modal-title-vcenter", centered: 'centered'}))
+        dispatch(setProps({size: "md", 'aria-labelledby': "contained-modal-title-vcenter", centered: 'centered'}))
     }, [dispatch]);
 
     const handleCloseModal = () => {

@@ -46,7 +46,6 @@ export const editAffiliate = createAsyncThunk(
             const affiliate = await EditAffiliate(id, name, high_date, low_date, initial_state_id, salary, monthly_quota, annual_quota, contribution_commitment, month_contribution)
             return affiliate.data;
         } catch (error) {
-            console.log(error.response.statusText)
             return rejectWithValue(error.response.statusText);
         }
     }
@@ -57,10 +56,8 @@ export const getAffiliatesByPage = createAsyncThunk(
     async(page, {rejectWithValue}) => {
         try {
             const affiliate = await GetAffiliatesByPage(page)
-            console.log(affiliate);
             return affiliate.data;
         } catch (error) {
-            console.log(error.response.statusText)
             return rejectWithValue(error.response.statusText);
         }
     }
@@ -141,7 +138,6 @@ const affiliateSlice = createSlice({
         });
 
         builder.addCase(getAffiliatesByPage.fulfilled, (state, action) => {
-            console.log(action)
             state.affiliates = action.payload.results;
             state.loading = action.meta.requestStatus;
             state.pagination = {

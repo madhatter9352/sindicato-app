@@ -10,8 +10,6 @@ export const GetAffiliates = async() => {
 }
 
 export const CreateAffiliate = async(values) => {
-    console.log(values)
-    console.log("values")
     try {
         const affiliate = await instance.post('/affiliate/', values);
         return affiliate;

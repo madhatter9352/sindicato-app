@@ -18,7 +18,6 @@ export const createSeccionSindical = createAsyncThunk(
     async (values, {rejectWithValue}) => {
         try {
             const secciones = await CreateSeccionSindical(values);
-            console.log(secciones)
             return secciones.data;
         } catch (error) {
             return rejectWithValue(error.response.statusText);
@@ -57,7 +56,6 @@ export const getSeccionesByPage = createAsyncThunk(
     async(page, {rejectWithValue}) => {
         try {
             const secciones = await GetSeccionesByPage(page);
-            console.log(secciones);
             return secciones;
         } catch (error) {
             return rejectWithValue(error.response.statusText);

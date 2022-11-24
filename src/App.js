@@ -9,12 +9,13 @@ import { PublicRoute } from './routes/PublicRoute';
 import { ToastContainer } from 'react-toastify';
 import { ModalContainer } from './components/modal/ModalContainer';
 import { SeccionSindical } from './pages/seccion-sindical/SeccionSindical';
+import { ContributionDeposit } from './pages/contributionDeposit/contributionDeposit';
+import { DepositFinance } from './pages/depositFinance/DepositFinance';
 import { Union_section } from './pages/union_section/UnionSection';
 import { Initial_state } from './pages/initial_state/Initial_state';
 import { Affiliate } from './pages/affiliate/Affiliate';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-// import { clearDonotionState } from './store/reducers/donation';
 import { clearAreaState } from './store/reducers/area';
 import { ServerError } from './components/errors/ServerError';
 import { clearError } from './store/reducers/auth';
@@ -56,6 +57,8 @@ function App() {
               <Route path='/seccion-sindical' element={<SeccionSindical />} />
               <Route path='/initial_state' element={<Initial_state />} />
               <Route path='/section_union' element={<Union_section />} />
+              <Route path='/contribution_deposit' element={<ContributionDeposit />} />
+              <Route path='/finanzas' element={<DepositFinance />} />
               <Route path='/affiliate' element={<Affiliate />} />
               <Route path='/usuario' element={<Usuario />} />
               <Route path='/acta' element={<Acta />} />

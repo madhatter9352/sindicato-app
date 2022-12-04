@@ -23,7 +23,7 @@ export const SeccionSindical = () => {
 
 
     if(!['fulfilled', 'rejected'].includes(loading)){
-        return <Loading active inline='centered' content='Loading Secciones Sindicales...' />
+        return <Loading active inline='centered' content='Cargando Secciones Sindicales...' />
     }
 
     if(loading === 'rejected' && error){
@@ -52,7 +52,7 @@ export const SeccionSindical = () => {
                         <div className="card-tools">
                             <Button 
                                 primary
-                                content="Annadir"
+                                content="Añadir"
                                 icon="plus"
                                 onClick={() => dispatch(openModal(<SeccionModal />))}
                             />
@@ -83,7 +83,7 @@ export const SeccionSindical = () => {
                                                 <Button 
                                                     color='red'
                                                     icon='trash'
-                                                    content='Delete'
+                                                    content='Eliminar'
                                                     loading={isDeleting && seccion.id === selected}
                                                     onClick={() => handleDelete(seccion.id)}
                                                 />
@@ -91,7 +91,7 @@ export const SeccionSindical = () => {
                                                 <Button 
                                                     color='yellow'
                                                     icon='edit'
-                                                    content='Edit'
+                                                    content='Editar'
                                                     onClick={() => dispatch(openModal(<SeccionModal id={seccion.id} />))}
                                                 />
                                             </td>

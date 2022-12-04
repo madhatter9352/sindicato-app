@@ -1,6 +1,6 @@
 export const MENU = [
     {
-        name: 'Home',
+        name: 'Inicio',
         path: '/'
     },
     {
@@ -11,7 +11,7 @@ export const MENU = [
         name: 'Configuracion',
         children: [
         {
-            name: 'Area',
+            name: 'Areas',
             path: '/area'
         },
 
@@ -21,7 +21,7 @@ export const MENU = [
         },
         {
             name: 'Seccion Sindical',
-            path: '/section_union'
+            path: '/seccion-sindical'
         },
         {
             name: 'Donación',
@@ -40,7 +40,7 @@ export const MENU = [
         //     path: '/section_union'
         // },
         {
-            name: 'Depósito de contribución',
+            name: 'Aportes a la patria',
             path: '/contribution_deposit'
         },
         {

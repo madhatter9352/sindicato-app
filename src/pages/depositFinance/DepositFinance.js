@@ -21,7 +21,7 @@ export const DepositFinance = () => {
     }, [dispatch, currPage]);
 
     if(!['fulfilled', 'rejected'].includes(loading)){
-        return <Loading active inline='centered' content='Loading DepositFinances...' />
+        return <Loading active inline='centered' content='Cargando Depositos...' />
     }
 
     if(loading === 'rejected' && error){
@@ -115,7 +115,7 @@ export const DepositFinance = () => {
                                                     {/*    loading={isDeleting && depositFinance.id === selected}*/}
                                                     {/*    onClick={() => handleDelete(depositFinance.id)}*/}
                                                     {/*/>*/}
-                                                    <Button animated='vertical' color='red' circular='true'     loading={isDeleting && depositFinance.id === selected}
+                                                    <Button animated='vertical' color='red' circular='true' loading={isDeleting && depositFinance.id === selected}
                                                             onClick={() => handleDelete(depositFinance.id)}>
                                                         <Button.Content hidden>Eliminar</Button.Content>
                                                         <Button.Content visible>

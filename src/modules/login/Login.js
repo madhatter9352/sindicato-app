@@ -119,9 +119,9 @@ export const Login = () => {
                     </form>
 
                     <p className="mb-1">
-                        <Link to="/register">
+                        {/* <Link to="/register">
                             Crear una cuenta
-                        </Link>
+                        </Link> */}
                     </p>
                 </div>
             </div>

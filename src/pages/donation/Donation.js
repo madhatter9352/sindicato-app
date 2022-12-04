@@ -23,7 +23,7 @@ export const Donation = () => {
     }, [dispatch, currPage]);
 
     if(!['fulfilled', 'rejected'].includes(loading)){
-        return <Loading active inline='centered' content='Loading Donations...' />
+        return <Loading active inline='centered' content='Cargando Donaciones...' />
     }
 
     if(loading === 'rejected' && error){
@@ -43,12 +43,12 @@ export const Donation = () => {
 
     return (
         <div>
-            <ContentHeader title="Donation" />
+            <ContentHeader title="Donaciones" />
             <section className="content">
                 <div className="container-fluid">
                     <div className="card">
                         <div className="card-header">
-                            <h3 className="card-title">Mantenimiento de Donations</h3>
+                            <h3 className="card-title">Mantenimiento de Donaciones</h3>
                             <div className="card-tools">
                                 <Button 
                                     primary
@@ -77,13 +77,13 @@ export const Donation = () => {
                                             >
                                                 <td>{donation.id}</td>
                                                 <td>{donation.name}</td>
-                                                <td>{formatDate(donation.created)}</td>
+                                                <td>{formatDate(donation.date)}</td>
                                                 <td>{(donation.area.name !== undefined)  ? donation.area.name : donation.area}</td>
                                                 <td>
                                                     <Button
                                                         color='red'
                                                         icon='trash'
-                                                        content='Delete'
+                                                        content='Eliminar'
                                                         loading={isDeleting && donation.id === selected}
                                                         onClick={() => handleDelete(donation.id)}
                                                     />
@@ -91,7 +91,7 @@ export const Donation = () => {
                                                     <Button
                                                         color='yellow'
                                                         icon='edit'
-                                                        content='Edit'
+                                                        content='Editar'
                                                         onClick={() => dispatch(openModal(<DonationModal id={donation.id} />))}
                                                     />
                                                 </td>

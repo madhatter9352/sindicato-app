@@ -23,7 +23,7 @@ export const Affiliate = () => {
     }, [dispatch, currPage]);
 
     if(!['fulfilled', 'rejected'].includes(loading)){
-        return <Loading active inline='centered' content='Loading Affiliates...' />
+        return <Loading active inline='centered' content='Cargando Afiliados...' />
     }
 
     if(loading === 'rejected' && error){
@@ -93,7 +93,7 @@ export const Affiliate = () => {
                                                     <Button
                                                         color='red'
                                                         icon='trash'
-                                                        content='Delete'
+                                                        content='Eliminar'
                                                         loading={isDeleting && affiliate.id === selected}
                                                         onClick={() => handleDelete(affiliate.id)}
                                                     />
@@ -101,7 +101,7 @@ export const Affiliate = () => {
                                                     <Button
                                                         color='yellow'
                                                         icon='edit'
-                                                        content='Edit'
+                                                        content='Editar'
                                                         onClick={() => dispatch(openModal(<AffiliateModal id={affiliate.id} />))}
                                                     />
                                                 </td>

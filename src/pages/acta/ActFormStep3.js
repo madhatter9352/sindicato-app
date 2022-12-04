@@ -75,7 +75,7 @@ export const ActFormStep3 = () => {
                                             <Button 
                                                 color='red'
                                                 icon='trash'
-                                                content='Delete'
+                                                content='Eliminar'
                                                 //loading={isDeleting && area.id === selected}
                                                 onClick={() => handleDeleteDocument(doc.id,i)}
                                             />

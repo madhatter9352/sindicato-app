@@ -75,13 +75,14 @@ export const ContributionDepositModal = ({id = null}) => {
             to_deposit: Yup.number().required('Este campo es requerido').min(1, 'Este campo debe ser mayor a 0'),
             deposited: Yup.number().required('Este campo es requerido').min(1, 'Este campo debe ser mayor a 0'),
             high: Yup.number().required('Este campo es requerido').min(1, 'Este campo debe ser mayor a 0'),
-            low: Yup.number().required('Este campo es requerido').min(1, 'Este campo debe ser mayor a 0'),
-            earring: Yup.number().required('Este campo es requerido').min(1, 'Este campo debe ser mayor a 0')
+            low: Yup.number().required('Este campo es requerido').min(1, 'Este campo debe ser mayor a 0')
         }),
         onSubmit: (values) => {
             if(id){
+                values.earring = handleTotal();
                 handleEdit(values);
             } else {
+                values.earring = handleTotal();
                 handleCreate(values);
             }
         }
@@ -136,19 +137,23 @@ export const ContributionDepositModal = ({id = null}) => {
         dispatch(closeModal());
     }
 
+    const handleTotal  = () => {
+        return values.to_deposit + values.high + values.low - values.deposited
+    }
+
     return (
         <>
             {
                 loading
                     ?
                     <div>
-                        <Loader active inline='centered' content='Loading sección' />
+                        <Loader active inline='centered' content='Cargando Aporte...' />
                     </div>
                     :
                     <>
                         <Modal.Header>
                             <Modal.Title id="contained-modal-title-vcenter">
-                                Añadir Afiliado
+                                Añadir Aporte
                             </Modal.Title>
                         </Modal.Header>
                         <form onSubmit={handleSubmit}>
@@ -321,8 +326,8 @@ export const ContributionDepositModal = ({id = null}) => {
                                             name="earring"
                                             type="number"
                                             placeholder="Pendientes"
-                                            onChange={handleChange}
-                                            value={values.earring}
+                                            readOnly={true}
+                                            value={handleTotal()}
                                             isValid={touched.earring && !errors.earring}
                                             isInvalid={touched.earring && !!errors.earring}
                                         />
@@ -339,7 +344,7 @@ export const ContributionDepositModal = ({id = null}) => {
                             </Modal.Body>
                             <Modal.Footer>
                                 <Button
-                                    content= 'Close'
+                                    content= 'Cerrar'
                                     type='button'
                                     onClick={() => handleCloseModal()}
                                 />

@@ -10,7 +10,7 @@ import { GetAffiliates } from '../../services/affiliate';
 
 const initialState = {
     approach: '',
-    affiliate_id: '',
+    affiliate: '',
     type: ''
 };
 
@@ -29,17 +29,17 @@ export const PlanteamientoModal = ({handleAddPlanteamiento}) => {
     const {handleChange, values, handleSubmit, touched, errors, isSubmitting} = useFormik({
         initialValues: { 
             approach: formValues.approach,
-            affiliate_id: formValues.affiliate_id,
+            affiliate: formValues.affiliate,
             type: formValues.type
         },
         enableReinitialize: true,
         validationSchema: Yup.object({
             approach: Yup.string()
-            .min(3, 'Must be 3 characters or more')
-            .max(30, 'Must be 30 characters or less')
-            .required('Required'),
-            affiliate_id: Yup.number().required('Required'),
-            type: Yup.string().required('Required')
+            .min(3, 'Debe tener 3 caracteres o mas')
+            .max(30, 'Debe tener 30 caracteres o mas')
+            .required('Requerido'),
+            affiliate: Yup.string().required('Requerido'),
+            type: Yup.string().required('Requerido')
         }),
         onSubmit: (values) => {
             // if(id){
@@ -47,7 +47,6 @@ export const PlanteamientoModal = ({handleAddPlanteamiento}) => {
             // } else {
             //     handleCreate(values);
             // }
-
             handleCreate(values);
         }
     });
@@ -102,21 +101,22 @@ export const PlanteamientoModal = ({handleAddPlanteamiento}) => {
                     <div className='mb-3'>
                         <InputGroup>
                             <Form.Control
-                                id="affiliate_id"
-                                name="affiliate_id"
-                                as={"select"}
+                                id="affiliate"
+                                name="affiliate"
+                                placeholder="Afiliado"
+                                type='text'
                                 onChange={handleChange}
-                                value={values.affiliate_id}
-                                isValid={touched.affiliate_id && !errors.affiliate_id}
-                                isInvalid={touched.affiliate_id && !!errors.affiliate_id}
-                            >
-                                <option>Seleccione un afiliado...</option>
-                                {
-                                    afiliados && afiliados.map((afiliado)=> (
-                                        <option key={afiliado.id} value={afiliado.id}>{afiliado.name}</option>
-                                    ))
-                                }
-                            </Form.Control>
+                                value={values.affiliate}
+                                isValid={touched.affiliate && !errors.affiliate}
+                                isInvalid={touched.affiliate && !!errors.affiliate}
+                            />
+                            {
+                                touched.affiliate && errors.affiliate ? (
+                                <Form.Control.Feedback type="invalid">
+                                    {errors.affiliate}
+                                </Form.Control.Feedback>
+                                ) : ''
+                            }
                         </InputGroup>
                     </div>
 
@@ -144,7 +144,7 @@ export const PlanteamientoModal = ({handleAddPlanteamiento}) => {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button
-                        content= 'Close'
+                        content= 'Cerrar'
                         type='button'
                         onClick={() => handleCloseModal()}
                     />

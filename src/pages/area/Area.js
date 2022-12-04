@@ -23,7 +23,7 @@ export const Area = () => {
     }, [dispatch, currPage]);
 
     if(!['fulfilled', 'rejected'].includes(loading)){
-        return <Loading active inline='centered' content='Loading Areas...' />
+        return <Loading active inline='centered' content='Cargando Areas...' />
     }
 
     if(loading === 'rejected' && error){
@@ -52,7 +52,7 @@ export const Area = () => {
                             <div className="card-tools">
                                 <Button 
                                     primary
-                                    content="Annadir"
+                                    content="Añadir"
                                     icon="plus"
                                     onClick={() => dispatch(openModal(<AddAreaModal />))}
                                 />
@@ -81,7 +81,7 @@ export const Area = () => {
                                                     <Button 
                                                         color='red'
                                                         icon='trash'
-                                                        content='Delete'
+                                                        content='Eliminar'
                                                         loading={isDeleting && area.id === selected}
                                                         onClick={() => handleDelete(area.id)}
                                                     />
@@ -89,7 +89,7 @@ export const Area = () => {
                                                     <Button 
                                                         color='yellow'
                                                         icon='edit'
-                                                        content='Edit'
+                                                        content='Editar'
                                                         onClick={() => dispatch(openModal(<AddAreaModal id={area.id} />))}
                                                     />
                                                 </td>

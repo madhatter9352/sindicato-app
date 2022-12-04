@@ -13,9 +13,7 @@ export const CreateSeccionSindical = async(values) => {
     try {
         const payload = {
             name: values.name,
-            area_id: values.area,
-            //TODO: Revisar que se va a hacer con este valor
-            initial_state_id: 1
+            area_id: values.area
         };
 
         const seccion = await instance.post('/union-section/', payload);

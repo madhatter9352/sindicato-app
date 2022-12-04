@@ -50,10 +50,10 @@ export const SeccionModal = ({id = null}) => {
         enableReinitialize: true,
         validationSchema: Yup.object({
             name: Yup.string()
-            .min(3, 'Must be 3 characters or more')
-            .max(30, 'Must be 30 characters or less')
-            .required('Required'),
-            area: Yup.number().required('Required')
+            .min(3, 'Debe tener 3 caracteres o mas')
+            .max(30, 'Debe tener 30 caracteres o mas')
+            .required('Requerido'),
+            area: Yup.number().required('Requerido')
         }),
         onSubmit: (values) => {
             if(id){
@@ -119,7 +119,7 @@ export const SeccionModal = ({id = null}) => {
             loading 
             ?
                 <div>
-                    <Loader active inline='centered' content='Loading sección' />
+                    <Loader active inline='centered' content='Cargando sección' />
                 </div>
             :
             <>
@@ -182,7 +182,7 @@ export const SeccionModal = ({id = null}) => {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button
-                            content= 'Close'
+                            content= 'Cerrar'
                             type='button'
                             onClick={() => handleCloseModal()}
                         />

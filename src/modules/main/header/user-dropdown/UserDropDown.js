@@ -1,5 +1,4 @@
 import React from 'react'
-import {Link} from 'react-router-dom';
 import {Dropdown} from 'semantic-ui-react';
 import {useDispatch, useSelector} from "react-redux";
 import {logout} from "../../../../store/reducers/auth";
@@ -19,8 +18,7 @@ export const UserDropDown = () => {
                 //text='Jhon doe'
             >
                 <Dropdown.Menu direction='left'>
-                    <Dropdown.Item as={Link} to={`/`} text='My Profile' icon='user'/>
-                    <Dropdown.Item text='Logout' icon='power' onClick={handleLogout}/>
+                    <Dropdown.Item text='Salir' icon='power' onClick={handleLogout}/>
                 </Dropdown.Menu>
             </Dropdown>
         </div>

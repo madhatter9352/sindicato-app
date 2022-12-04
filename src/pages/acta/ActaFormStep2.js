@@ -225,14 +225,14 @@ export const ActaFormStep2 = () => {
                                         key={planteamiento.id}
                                     >
                                         <td>{planteamiento.id}</td>
-                                        <td>{planteamiento.affiliate.name}</td>
+                                        <td>{planteamiento.affiliate}</td>
                                         <td>{planteamiento.approach}</td>
                                         <td>{planteamiento.type}</td>
                                         <td>
                                             <Button 
                                                 color='red'
                                                 icon='trash'
-                                                content='Delete'
+                                                content='Eliminar'
                                                 //loading={isDeleting && area.id === selected}
                                                 onClick={() => handleDeletePlanteamiento(planteamiento.id, i)}
                                             />

@@ -21,7 +21,7 @@ export const ContributionDeposit = () => {
     }, [dispatch, currPage]);
 
     if(!['fulfilled', 'rejected'].includes(loading)){
-        return <Loading active inline='centered' content='Loading ContributionDeposits...' />
+        return <Loading active inline='centered' content='Cargando Aportes...' />
     }
 
     if(loading === 'rejected' && error){
@@ -41,12 +41,12 @@ export const ContributionDeposit = () => {
 
     return (
         <div>
-            <ContentHeader title="Depósito de contribución" />
+            <ContentHeader title="Aporte a la patria" />
             <section className="content">
                 <div className="container-fluid">
                     <div className="card">
                         <div className="card-header">
-                            <h3 className="card-title">Getión de depósito de contribución</h3>
+                            <h3 className="card-title">Getión de Aportes a la patria</h3>
                             <div className="card-tools">
                                 <Button 
                                     primary
@@ -91,7 +91,7 @@ export const ContributionDeposit = () => {
                                                     <Button
                                                         color='red'
                                                         icon='trash'
-                                                        content='Delete'
+                                                        content='Eliminar'
                                                         loading={isDeleting && contributionDeposit.id === selected}
                                                         onClick={() => handleDelete(contributionDeposit.id)}
                                                     />
@@ -99,7 +99,7 @@ export const ContributionDeposit = () => {
                                                     <Button
                                                         color='yellow'
                                                         icon='edit'
-                                                        content='Edit'
+                                                        content='Editar'
                                                         onClick={() => dispatch(openModal(<ContributionDepositModal id={contributionDeposit.id} />))}
                                                     />
                                                 </td>

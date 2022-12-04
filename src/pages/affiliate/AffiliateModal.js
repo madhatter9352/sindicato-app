@@ -150,7 +150,7 @@ export const AffiliateModal = ({id = null}) => {
                 loading
                     ?
                     <div>
-                        <Loader active inline='centered' content='Loading sección' />
+                        <Loader active inline='centered' content='Cargando Afiliado' />
                     </div>
                     :
                     <>
@@ -359,7 +359,7 @@ export const AffiliateModal = ({id = null}) => {
                             </Modal.Body>
                             <Modal.Footer>
                                 <Button
-                                    content= 'Close'
+                                    content= 'Cerrar'
                                     type='button'
                                     onClick={() => handleCloseModal()}
                                 />

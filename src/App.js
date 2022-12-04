@@ -56,7 +56,7 @@ function App() {
               <Route path='/area' element={<Area />} />
               <Route path='/seccion-sindical' element={<SeccionSindical />} />
               <Route path='/initial_state' element={<Initial_state />} />
-              <Route path='/section_union' element={<Union_section />} />
+              {/* <Route path='/section_union' element={<Union_section />} /> */}
               <Route path='/contribution_deposit' element={<ContributionDeposit />} />
               <Route path='/finanzas' element={<DepositFinance />} />
               <Route path='/affiliate' element={<Affiliate />} />

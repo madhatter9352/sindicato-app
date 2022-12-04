@@ -11,6 +11,7 @@ import { createInitial_state, editInitial_state } from '../../store/reducers/ini
 import moment from 'moment'
 
 import "react-datepicker/dist/react-datepicker.css";
+import { GetSeccionesSindicales } from '../../services/seccionSindical';
 
 
 const initialState = {
@@ -23,13 +24,14 @@ const initialState = {
     amount : '',
     name: '',
     year: moment().year(),
+    union_section_id: ''
 }
 
 export const Initial_stateModal = ({id = null}) => {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
     const [formValues, setFormValues] = useState(initialState);
-    const [areas, setAreas] = useState(null);
+    const [sections, setSections] = useState(null);
 
     const handleCreate = async(values) => {
         //TODO: Quitar set timout
@@ -51,7 +53,8 @@ export const Initial_stateModal = ({id = null}) => {
                 fully_committed: values.fully_committed,
                 amount: values.amount,
                 name: values.name,
-                year: values.year
+                year: values.year,
+                union_section_id: values.union_section_id
             }));
 
             dispatch(closeModal());
@@ -68,7 +71,8 @@ export const Initial_stateModal = ({id = null}) => {
             fully_committed: formValues.fully_committed,
             amount: formValues.amount,
             name: formValues.name,
-            year: formValues.year
+            year: formValues.year,
+            union_section_id: formValues.union_section_id
         },
         enableReinitialize: true,
         validationSchema: Yup.object({
@@ -81,6 +85,7 @@ export const Initial_stateModal = ({id = null}) => {
             amount: Yup.number().required('Este campo es requerido').min(1, 'Este campo debe ser mayor a 0'),
             year: Yup.number().required('Este campo es requerido').integer("Este campo debe ser un entero").min(2000, 'Este campo debe ser mayor a 2000'),
             name: Yup.string().required('Este campo es requerido'),
+            union_section_id: Yup.number().required('Este campo es requerido')
         }),
         onSubmit: (values) => {
             if(id){
@@ -93,6 +98,11 @@ export const Initial_stateModal = ({id = null}) => {
 
 
     useEffect(() => {
+        const getSections = async() => {
+            const sections = await GetSeccionesSindicales();
+            setSections(sections.results);
+        }
+        getSections();
         if(id){
             setLoading(true);
             const getInitial_state = async() => {
@@ -107,7 +117,8 @@ export const Initial_stateModal = ({id = null}) => {
                         fully_committed: initial_state.data.fully_committed,
                         amount: initial_state.data.amount,
                         name: initial_state.data.name,
-                        year: initial_state.data.year
+                        year: initial_state.data.year,
+                        union_section_id: initial_state.data.union_section.id
                     });
                     setLoading(false);
                 } catch (error) {
@@ -350,6 +361,34 @@ export const Initial_stateModal = ({id = null}) => {
                                         }
                                     </InputGroup>
                                 </div>
+
+                                <div className='mb-3'>
+                            <InputGroup>
+                                <Form.Control
+                                    id="union_section_id"
+                                    name="union_section_id"
+                                    as={"select"}
+                                    onChange={handleChange}
+                                    value={values.union_section_id}
+                                    isValid={touched.union_section_id && !errors.union_section_id}
+                                    isInvalid={touched.union_section_id && !!errors.union_section_id}
+                                >
+                                    <option>Seleccione un Sección Sindical...</option>
+                                    {
+                                        sections && sections.map((section)=> (
+                                            <option key={section.id} value={section.id}>{section.name}</option>
+                                        ))
+                                    }
+                                </Form.Control>
+                                {
+                                    touched.union_section_id && errors.union_section_id ? (
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.union_section_id}
+                                    </Form.Control.Feedback>
+                                    ) : ''
+                                }
+                            </InputGroup>
+                        </div>
 
 
                             </Modal.Body>

@@ -34,15 +34,15 @@ export const AcuerdoModal = ({handleAddAcuerdos}) => {
         enableReinitialize: true,
         validationSchema: Yup.object({
             agreement: Yup.string()
-            .min(3, 'Must be 3 characters or more')
-            .max(30, 'Must be 30 characters or less')
-            .required('Required'),
+            .min(3, 'Debe tener 3 caracteres o mas')
+            .max(30, 'Debe tener 30 caracteres o mas')
+            .required('Requerido'),
             responsible: Yup.string()
-            .min(3, 'Must be 3 characters or more')
-            .max(30, 'Must be 30 characters or less')
+            .min(3, 'Debe tener 3 caracteres o mas')
+            .max(30, 'Debe tener 30 caracteres o mas')
             .required('Required'),
-            compliance_date: Yup.date().required('Required'),
-            state: Yup.string().required('Required')
+            compliance_date: Yup.date().required('Requerido'),
+            state: Yup.string().required('Requerido')
         }),
         onSubmit: (values) => {
             // if(id){
@@ -161,7 +161,7 @@ export const AcuerdoModal = ({handleAddAcuerdos}) => {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button
-                        content= 'Close'
+                        content= 'Cerrar'
                         type='button'
                         onClick={() => handleCloseModal()}
                     />

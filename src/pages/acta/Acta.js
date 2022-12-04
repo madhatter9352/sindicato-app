@@ -33,7 +33,7 @@ export const Acta = () => {
     }, [dispatch, currPage]);
 
     if(!['fulfilled', 'rejected'].includes(loading)){
-        return <Loading active inline='centered' content='Loading Actas...' />
+        return <Loading active inline='centered' content='Cargando Actas...' />
     }
 
     if(loading === 'rejected' && error){
@@ -86,7 +86,7 @@ export const Acta = () => {
                 
                 doc.render({
                     attendance_percentage: value.attendance_percentage,
-                    section: "prueba",
+                    section: value.union_section.name,
                     place: value.place,
                     start: value.start_time,
                     end: value.end_time,
@@ -124,7 +124,7 @@ export const Acta = () => {
                             <div className="card-tools">
                                 <Button 
                                     primary
-                                    content="Annadir"
+                                    content="Añadir"
                                     icon="plus"
                                     onClick={() => navigate('/create-acta')}
                                 />
@@ -135,7 +135,7 @@ export const Acta = () => {
                                 <thead>
                                     <tr>
                                         <th>Id</th>
-                                        <th>Seccion Sindical</th>
+                                        <th>Sección Sindical</th>
                                         <th>Dirige</th>
                                         <th>Lugar</th>
                                         <th>Creado</th>
@@ -157,7 +157,7 @@ export const Acta = () => {
                                                     <Button 
                                                         color='red'
                                                         icon='trash'
-                                                        content='Delete'
+                                                        content='Eliminar'
                                                         loading={isDeleting && acta.id === selected}
                                                         onClick={() => handleDelete(acta.id)}
                                                     />

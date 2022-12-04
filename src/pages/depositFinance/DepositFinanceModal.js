@@ -99,29 +99,52 @@ export const DepositFinanceModal = ({id = null}) => {
         enableReinitialize: true,
         validationSchema: Yup.object({
             union_section_id: Yup.number().required('Este campo es requerido'),
-            total_number_workers: Yup.number().required('Este campo es requerido').min(1, 'Este campo debe ser mayor a 0'),
-            high: Yup.number().required('Este campo es requerido').min(1, 'Este campo debe ser mayor a 0'),
-            low: Yup.number().required('Este campo es requerido').min(1, 'Este campo debe ser mayor a 0'),
-            earring: Yup.number().required('Este campo es requerido').min(1, 'Este campo debe ser mayor a 0'),
-            total_number_affiliates: Yup.number().required('Este campo es requerido').min(1, 'Este campo debe ser mayor a 0'),
-            al_da: Yup.number().required('Este campo es requerido').min(1, 'Este campo debe ser mayor a 0'),
-            unlisted: Yup.number().required('Este campo es requerido').min(1, 'Este campo debe ser mayor a 0'),
-            with_arrears: Yup.number().required('Este campo es requerido').min(1, 'Este campo debe ser mayor a 0'),
-            liquidated_year: Yup.number().required('Este campo es requerido').min(1, 'Este campo debe ser mayor a 0'),
-            to_quote: Yup.number().required('Este campo es requerido').min(1, 'Este campo debe ser mayor a 0'),
-            quoted: Yup.number().required('Este campo es requerido').min(1, 'Este campo debe ser mayor a 0'),
-            ten_percent: Yup.number().required('Este campo es requerido').min(1, 'Este campo debe ser mayor a 0'),
-            net_quoted: Yup.number().required('Este campo es requerido').min(1, 'Este campo debe ser mayor a 0'),
-            ten_percent_accumulated: Yup.number().required('Este campo es requerido').min(1, 'Este campo debe ser mayor a 0'),
-            reduction: Yup.number().required('Este campo es requerido').min(1, 'Este campo debe ser mayor a 0'),
-            total_balance: Yup.number().required('Este campo es requerido').min(1, 'Este campo debe ser mayor a 0'),
+            total_number_workers: Yup.number().required('Este campo es requerido').min(0, 'Este campo debe ser mayor a 0'),
+            high: Yup.number().required('Este campo es requerido').min(0, 'Este campo debe ser mayor a 0'),
+            low: Yup.number().required('Este campo es requerido').min(0, 'Este campo debe ser mayor a 0'),
+            earring: Yup.number().required('Este campo es requerido').min(0, 'Este campo debe ser mayor a 0'),
+            total_number_affiliates: Yup.number()
+                                        .required('Este campo es requerido')
+                                        .min(0, 'Este campo debe ser mayor a 0')
+                                        .test({
+                                            name: 'test',
+                                            test(value, ctx){
+                                                const {al_da, unlisted, with_arrears, liquidated_year} = this.parent
+                                                if(al_da + unlisted + with_arrears + liquidated_year  !== value){
+                                                    return ctx.createError({
+                                                        message: 'Debe ser igual a la suma de los campos: Al dia, Sin cotizar, con atraso y año liquidado'
+                                                    })
+                                                } else {
+                                                    return true;
+                                                }
+                                                
+                                            }
+                                        }),
+            al_da: Yup.number().required('Este campo es requerido').min(0, 'Este campo debe ser mayor a 0'),
+            unlisted: Yup.number().required('Este campo es requerido').min(0, 'Este campo debe ser mayor a 0'),
+            with_arrears: Yup.number().required('Este campo es requerido').min(0, 'Este campo debe ser mayor a 0'),
+            liquidated_year: Yup.number().required('Este campo es requerido').min(0, 'Este campo debe ser mayor a 0'),
+            to_quote: Yup.number().required('Este campo es requerido').min(0, 'Este campo debe ser mayor a 0'),
+            quoted: Yup.number().required('Este campo es requerido').min(0, 'Este campo debe ser mayor a 0'),
+            ten_percent: Yup.number().required('Este campo es requerido').min(0, 'Este campo debe ser mayor a 0'),
+            net_quoted: Yup.number().required('Este campo es requerido').min(0, 'Este campo debe ser mayor a 0'),
+            ten_percent_accumulated: Yup.number().required('Este campo es requerido').min(0, 'Este campo debe ser mayor a 0'),
+            reduction: Yup.number().required('Este campo es requerido').min(0, 'Este campo debe ser mayor a 0'),
+            total_balance: Yup.number().required('Este campo es requerido').min(0, 'Este campo debe ser mayor a 0'),
             date: Yup.date().required('Este campo es requerido')
         }),
         onSubmit: (values) => {
             if(id){
+                values.earring = handleTotal();
+                values.ten_percent = handlePercent();
+                values.net_quoted = handleCotNeto(); 
                 handleEdit(values);
             } else {
+                values.earring = handleTotal();
+                values.ten_percent = handlePercent();
+                values.net_quoted = handleCotNeto(); 
                 handleCreate(values);
+
             }
         }
     });
@@ -185,6 +208,18 @@ export const DepositFinanceModal = ({id = null}) => {
         dispatch(closeModal());
     }
 
+    const handleTotal  = () => {
+        return values.to_quote - values.low + values.high - values.quoted
+    }
+
+    const handlePercent = () => {
+        return values.quoted * 0.10 
+    }
+
+    const handleCotNeto = () => {
+        return values.ten_percent_accumulated + handlePercent() - values.reduction;
+    }
+
     return (
         <>
             {
@@ -197,7 +232,7 @@ export const DepositFinanceModal = ({id = null}) => {
                     <>
                         <Modal.Header>
                             <Modal.Title id="contained-modal-title-vcenter">
-                                Añadir Afiliado
+                                Añadir déposito
                             </Modal.Title>
                         </Modal.Header>
                         <form onSubmit={handleSubmit}>
@@ -475,8 +510,8 @@ export const DepositFinanceModal = ({id = null}) => {
                                             name="earring"
                                             type="number"
                                             placeholder="Pendientes"
-                                            onChange={handleChange}
-                                            value={values.earring}
+                                            readOnly={true}
+                                            value={handleTotal()}
                                             isValid={touched.earring && !errors.earring}
                                             isInvalid={touched.earring && !!errors.earring}
                                         />
@@ -497,8 +532,8 @@ export const DepositFinanceModal = ({id = null}) => {
                                             name="ten_percent"
                                             type="number"
                                             placeholder="10%"
-                                            onChange={handleChange}
-                                            value={values.ten_percent}
+                                            readOnly={true}
+                                            value={handlePercent()}
                                             isValid={touched.ten_percent && !errors.ten_percent}
                                             isInvalid={touched.ten_percent && !!errors.ten_percent}
                                         />
@@ -518,9 +553,9 @@ export const DepositFinanceModal = ({id = null}) => {
                                             id="net_quoted"
                                             name="net_quoted"
                                             type="number"
+                                            readOnly={true}
                                             placeholder="Cotizado neto"
-                                            onChange={handleChange}
-                                            value={values.net_quoted}
+                                            value={handleCotNeto()}
                                             isValid={touched.net_quoted && !errors.net_quoted}
                                             isInvalid={touched.net_quoted && !!errors.net_quoted}
                                         />

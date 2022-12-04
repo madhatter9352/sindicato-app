@@ -92,29 +92,29 @@ export const UserModal = ({id = null}) => {
             first_name: Yup.string()
                     .min(3)
                     .max(50)
-                    .required('Required'),
+                    .required('Requerido'),
             last_name: Yup.string()
                         .min(3)
                         .max(50)
-                        .required('Required'),
+                        .required('Requerido'),
             username: Yup.string()
                         .min(3)
                         .max(50)
-                        .required('Required'),
-            email: Yup.string().email('Invalid email address').required('Required'),
+                        .required('Requerido'),
+            email: Yup.string().email('Email invalido').required('Requerido'),
             password: Yup.string()
-                        .min(5, 'Must be 5 characters or more')
-                        .max(30, 'Must be 30 characters or less')
-                        .required('Required'),
+                        .min(5, 'Debe ser 5 caracteres o mas')
+                        .max(30, 'Debe ser 30 caracteres o mas')
+                        .required('Requerido'),
             passwordRetype: Yup.string()
-                                .min(5, 'Must be 5 characters or more')
-                                .max(30, 'Must be 30 characters or less')
-                                .required('Required')
+                                .min(5, 'Debe ser 5 caracteres o mas')
+                                .max(30, 'Debe ser 30 caracteres o mas')
+                                .required('Requerido')
                                 .when('password', {
                                     is: (val) => !!(val && val.length > 0),
                                     then: Yup.string().oneOf(
                                     [Yup.ref('password')],
-                                    'Both password need to be the same'
+                                    'Las contraseñas no conciden'
                                     )
                                 })
         }),
@@ -141,7 +141,7 @@ export const UserModal = ({id = null}) => {
             loading 
             ?
                 <div>
-                    <Loader active inline='centered' content='Loading usuario' />
+                    <Loader active inline='centered' content='Cargando usuario' />
                 </div>
             :
             <>
@@ -319,7 +319,7 @@ export const UserModal = ({id = null}) => {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button
-                            content= 'Close'
+                            content= 'Cerrar'
                             type='button'
                             onClick={() => handleCloseModal()}
                         />

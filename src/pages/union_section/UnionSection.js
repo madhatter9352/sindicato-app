@@ -23,7 +23,7 @@ export const Union_section = () => {
     }, [dispatch, currPage]);
 
     if(!['fulfilled', 'rejected'].includes(loading)){
-        return <Loading active inline='centered' content='Loading Union_sections...' />
+        return <Loading active inline='centered' content='Cargando Union Sindical...' />
     }
 
     if(loading === 'rejected' && error){

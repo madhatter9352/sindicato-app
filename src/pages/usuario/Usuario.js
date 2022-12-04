@@ -20,7 +20,7 @@ export const Usuario = () => {
     }, [dispatch, currPage]);
 
     if(!['fulfilled', 'rejected'].includes(loading)){
-        return <Loading active inline='centered' content='Loading Usuarios...' />
+        return <Loading active inline='centered' content='Cargando Usuarios...' />
     }
 
     const handleDelete = (id) => {
@@ -43,7 +43,7 @@ export const Usuario = () => {
                             <div className="card-tools">
                                 <Button 
                                     primary
-                                    content="Annadir"
+                                    content="Añadir"
                                     icon="plus"
                                     onClick={() => dispatch(openModal(<UserModal />))}
                                 />
@@ -76,7 +76,7 @@ export const Usuario = () => {
                                                     <Button 
                                                         color='red'
                                                         icon='trash'
-                                                        content='Delete'
+                                                        content='Eliminar'
                                                         loading={isDeleting && user.id === selected}
                                                         onClick={() => handleDelete(user.id)}
                                                     />
@@ -84,7 +84,7 @@ export const Usuario = () => {
                                                     <Button 
                                                         color='yellow'
                                                         icon='edit'
-                                                        content='Edit'
+                                                        content='Editar'
                                                         onClick={() => dispatch(openModal(<UserModal id={user.id} />))}
                                                     />
                                                 </td>

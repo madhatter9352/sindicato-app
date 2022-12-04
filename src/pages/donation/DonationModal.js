@@ -56,8 +56,8 @@ export const DonationModal = ({id = null}) => {
         enableReinitialize: true,
         validationSchema: Yup.object({
             name: Yup.string()
-                .min(3, 'Must be 3 characters or more')
-                .max(30, 'Must be 30 characters or less')
+                .min(3, 'Debe tener 3 caracteres o mas')
+                .max(30, 'Debe tener 30 caracteres o mas')
                 .required('Este campo es requerido'),
             area_id: Yup.number().required('Este campo es requerido'),
             date: Yup.date().required('Este campo es requerido')
@@ -88,7 +88,7 @@ export const DonationModal = ({id = null}) => {
                     setFormValues({
                         name: donation.data.name,
                         area_id: (donation.data.area.id !== undefined) ? donation.data.area.id : donation.data.area,
-                        date: today
+                        date: new Date(donation.data.date).toISOString().split('T')[0]
                     });
                     setLoading(false);
                 } catch (error) {
@@ -107,6 +107,8 @@ export const DonationModal = ({id = null}) => {
 
     }, [dispatch, id]);
 
+    console.log(values)
+
     useEffect(() => {
         dispatch(setProps({size: "md", 'aria-labelledby': "contained-modal-title-vcenter", centered: 'centered'}))
     }, [dispatch]);
@@ -115,7 +117,7 @@ export const DonationModal = ({id = null}) => {
         dispatch(closeModal());
     }
 
-    const today = moment().format('D-MM-YYYY');
+    //const today = moment().format('D-MM-YYYY');
 
     return (
         <>
@@ -123,7 +125,7 @@ export const DonationModal = ({id = null}) => {
                 loading
                     ?
                     <div>
-                        <Loader active inline='centered' content='Loading sección' />
+                        <Loader active inline='centered' content='Cargando sección' />
                     </div>
                     :
                     <>
@@ -192,7 +194,8 @@ export const DonationModal = ({id = null}) => {
                                                 id="date"
                                                 name="date"
                                                 onChange={handleChange}
-                                                defaultValue={today.toString()}
+                                                //defaultValue={today.toString()}
+                                                value={values.date}
                                                 isValid={touched.date && !errors.date}
                                                 isInvalid={touched.date && !!errors.date}
                                                 placeholder={"yyyy-mm-dd"}
@@ -204,7 +207,7 @@ export const DonationModal = ({id = null}) => {
                             </Modal.Body>
                             <Modal.Footer>
                                 <Button
-                                    content= 'Close'
+                                    content= 'Cerrar'
                                     type='button'
                                     onClick={() => handleCloseModal()}
                                 />

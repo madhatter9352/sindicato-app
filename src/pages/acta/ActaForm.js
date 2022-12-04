@@ -82,15 +82,15 @@ export const ActaForm = () => {
         },
         enableReinitialize: true,
         validationSchema: Yup.object({
-            date: Yup.date().required('Required'),
-            attendance_percentage: Yup.number().required('Required'),
-            union_section_id: Yup.number().required('Required'),
-            place: Yup.number().required('Required'),
-            start_time: Yup.string().required('Required'),
-            end_time: Yup.string().required('Required'),
-            direct: Yup.string().required('Required'),
-            guest: Yup.string().required('Required'),
-            body: Yup.string().required('Required')
+            date: Yup.date().required('Requerido'),
+            attendance_percentage: Yup.number().required('Requerido'),
+            union_section_id: Yup.number().required('Requerido'),
+            place: Yup.string().required('Requerido'),
+            start_time: Yup.string().required('Requerido'),
+            end_time: Yup.string().required('Requerido'),
+            direct: Yup.string().required('Requerido'),
+            guest: Yup.string().required('Requerido'),
+            body: Yup.string().required('Requerido')
         }),
         onSubmit: (values) => {
             // if(id){
@@ -114,7 +114,7 @@ export const ActaForm = () => {
     if(loading){
         return (
             <div>
-                <Loader active inline='centered' content='Loading...' />
+                <Loader active inline='centered' content='Cargando...' />
             </div>
         )
     }
@@ -201,7 +201,7 @@ export const ActaForm = () => {
                         <Form.Control
                             id="place"
                             name="place"
-                            type="number"
+                            type="text"
                             placeholder="Lugar"
                             onChange={handleChange}
                             value={values.place}
